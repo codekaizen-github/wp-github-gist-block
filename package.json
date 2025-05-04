@@ -6,6 +6,7 @@
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
 	"scripts": {
+		"type": "tsc",
 		"build": "wp-scripts build --blocks-manifest",
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
@@ -15,6 +16,8 @@
 		"start": "wp-scripts start --blocks-manifest"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^30.15.0"
+		"@types/wordpress__block-editor": "^11.5.16",
+		"@wordpress/scripts": "^30.15.0",
+		"typescript": "^5.8.3"
 	}
 }

@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "jsx": "react-jsx",
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "outDir": "src/wp-github-gist-block",
+        "skipLibCheck": true
+    },
+    "include": [
+        "ts/wp-github-gist-block/**/*.ts",
+        "ts/wp-github-gist-block/**/*.tsx",
+    ],
+    "exclude": [
+        "assets/js",
+        "build",
+        "node_modules",
+        "vendor"
+    ]
+}
