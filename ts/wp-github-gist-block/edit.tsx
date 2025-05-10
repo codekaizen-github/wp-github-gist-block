@@ -21,18 +21,20 @@ import { useBlockProps } from "@wordpress/block-editor";
  */
 import "./editor.scss";
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
-export default function Edit() {
+import { BlockEditProps } from "@wordpress/blocks";
+import { CustomBlockEditProps } from "./interfaces";
+
+export default function Edit({
+	attributes,
+	setAttributes,
+}: BlockEditProps<CustomBlockEditProps>) {
+	// const onChangeContent = (url: string) => {
+	// 	// setAttributes({ gistUrl: url });
+	// };
 	return (
-		<p {...useBlockProps()}>
-			{__("Wp Github Gist Block – hi from the editor!", "wp-github-gist-block")}
-		</p>
+		<>
+			<p>{__("Gist URL", "wp-github-gist-block")}</p>
+			<input {...useBlockProps()} type="text"></input>
+		</>
 	);
 }

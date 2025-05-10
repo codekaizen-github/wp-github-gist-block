@@ -8,7 +8,7 @@
   \*********************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/wp-github-gist-block","version":"0.1.1","title":"Wp Github Gist Block","category":"widgets","icon":"embed-generic","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"wp-github-gist-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/wp-github-gist-block","version":"0.1.1","title":"Wp Github Gist Block","category":"widgets","icon":"embed-generic","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"wp-github-gist-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"gistUrl":{"type":"string","default":""}}}');
 
 /***/ }),
 
@@ -50,18 +50,20 @@ __webpack_require__.r(__webpack_exports__);
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
-function Edit() {
-  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", Object.assign({}, (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(), {
-    children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Wp Github Gist Block – hi from the editor!", "wp-github-gist-block")
-  }));
+function Edit({
+  attributes,
+  setAttributes
+}) {
+  // const onChangeContent = (url: string) => {
+  // 	// setAttributes({ gistUrl: url });
+  // };
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
+      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Gist URL", "wp-github-gist-block")
+    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", Object.assign({}, (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(), {
+      type: "text"
+    }))]
+  });
 }
 
 /***/ }),
@@ -124,7 +126,7 @@ __webpack_require__.r(__webpack_exports__);
   supports: {
     html: _block_json__WEBPACK_IMPORTED_MODULE_4__.supports.html
   },
-  attributes: {},
+  attributes: _block_json__WEBPACK_IMPORTED_MODULE_4__.attributes,
   edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
   save: _save__WEBPACK_IMPORTED_MODULE_3__["default"]
 });

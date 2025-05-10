@@ -3,7 +3,7 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-import { registerBlockType } from "@wordpress/blocks";
+import { Block, registerBlockType } from "@wordpress/blocks";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -21,6 +21,7 @@ import Edit from "./edit";
 import save from "./save";
 import metadata from "./block.json";
 import { IconType } from "@wordpress/components";
+import { CustomBlockAttributes } from "./interfaces";
 /**
  * Every block starts by registering a new block type definition.
  *
@@ -34,7 +35,7 @@ registerBlockType(metadata.name, {
 	supports: {
 		html: metadata.supports.html,
 	},
-	attributes: {},
+	attributes: metadata.attributes as CustomBlockAttributes,
 	edit: Edit,
 	save: save,
 });
