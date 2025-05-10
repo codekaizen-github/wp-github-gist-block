@@ -20,6 +20,7 @@ import "./style.scss";
 import Edit from "./edit";
 import save from "./save";
 import metadata from "./block.json";
+import { IconType } from "@wordpress/components";
 /**
  * Every block starts by registering a new block type definition.
  *
@@ -29,7 +30,7 @@ registerBlockType(metadata.name, {
 	title: metadata.title,
 	description: metadata.description,
 	category: metadata.category,
-	icon: "hammer",
+	icon: metadata.icon as IconType,
 	supports: {
 		html: metadata.supports.html,
 	},

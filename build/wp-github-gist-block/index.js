@@ -8,7 +8,7 @@
   \*********************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/wp-github-gist-block","version":"0.1.0","title":"Wp Github Gist Block","category":"widgets","icon":"smiley","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"wp-github-gist-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/wp-github-gist-block","version":"0.1.1","title":"Wp Github Gist Block","category":"widgets","icon":"embed-generic","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"wp-github-gist-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ }),
 
@@ -120,7 +120,7 @@ __webpack_require__.r(__webpack_exports__);
   title: _block_json__WEBPACK_IMPORTED_MODULE_4__.title,
   description: _block_json__WEBPACK_IMPORTED_MODULE_4__.description,
   category: _block_json__WEBPACK_IMPORTED_MODULE_4__.category,
-  icon: "hammer",
+  icon: _block_json__WEBPACK_IMPORTED_MODULE_4__.icon,
   supports: {
     html: _block_json__WEBPACK_IMPORTED_MODULE_4__.supports.html
   },

@@ -1,12 +1,12 @@
 {
 	"name": "wp-github-gist-block",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Example block scaffolded with Create Block tool.",
 	"author": "The WordPress Contributors",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
 	"scripts": {
-		"dev": "nodemon --watch './ts/**/*' -e ts,tsx --exec 'npm run type; npm run start;'",
+		"dev": "nodemon --watch './ts/**/*' -e ts,tsx,json --exec 'npm run type; npm run start;'",
 		"type": "tsc",
 		"build": "wp-scripts build --blocks-manifest",
 		"format": "wp-scripts format",
