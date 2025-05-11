@@ -28,13 +28,17 @@ export default function Edit({
 	attributes,
 	setAttributes,
 }: BlockEditProps<CustomBlockEditProps>) {
-	// const onChangeContent = (url: string) => {
-	// 	// setAttributes({ gistUrl: url });
-	// };
 	return (
 		<>
 			<p>{__("Gist URL", "wp-github-gist-block")}</p>
-			<input {...useBlockProps()} type="text"></input>
+			<input
+				{...useBlockProps()}
+				type="text"
+				onChange={(e) => {
+					setAttributes({ gistUrl: e.target.value });
+				}}
+				value={attributes.gistUrl ?? ""}
+			></input>
 		</>
 	);
 }
