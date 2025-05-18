@@ -117,7 +117,8 @@ function Edit({
         placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Enter Gist ID", "wp-github-gist-block"),
         value: (_a = attributes.gistId) !== null && _a !== void 0 ? _a : "",
         style: {
-          width: "100%"
+          width: "100%",
+          backgroundColor: attributes.gistId ? isValidGistId ? "rgba(144, 238, 144, 0.2)" : "rgba(255, 99, 71, 0.1)" : "transparent"
         }
       })), attributes.gistId && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
         style: {

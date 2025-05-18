@@ -80,6 +80,11 @@ export default function Edit({
 					value={attributes.gistId ?? ""}
 					style={{
 						width: "100%",
+						backgroundColor: attributes.gistId
+							? isValidGistId
+								? "rgba(144, 238, 144, 0.2)"
+								: "rgba(255, 99, 71, 0.1)"
+							: "transparent",
 					}}
 				/>
 				{attributes.gistId && (
