@@ -23,22 +23,69 @@ import "./editor.scss";
 
 import { BlockEditProps } from "@wordpress/blocks";
 import { CustomBlockEditProps } from "./interfaces";
+import { useState, useEffect } from "react";
 
 export default function Edit({
 	attributes,
 	setAttributes,
 }: BlockEditProps<CustomBlockEditProps>) {
+	const [isValidGistId, setIsValidGistId] = useState<boolean>(false);
+	useEffect(() => {
+		if (attributes.gistId) {
+			fetch(`https://api.github.com/gists/${attributes.gistId}`)
+				.then((response) => {
+					if (response.ok) {
+						setIsValidGistId(true);
+					} else {
+						setIsValidGistId(false);
+					}
+				})
+				.catch((error) => {
+					console.error("Error fetching Gist ID:", error);
+					setIsValidGistId(false);
+				});
+		}
+	}, [attributes.gistId]);
+
 	return (
 		<>
-			<p>{__("Gist URL", "wp-github-gist-block")}</p>
+			<p>{__("Gist ID", "wp-github-gist-block")}</p>
 			<input
 				{...useBlockProps()}
 				type="text"
-				onChange={(e) => {
-					setAttributes({ gistUrl: e.target.value });
+				onChange={(event) => {
+					setAttributes({ gistId: event.target.value });
 				}}
-				value={attributes.gistUrl ?? ""}
+				placeholder={__("Enter Gist ID", "wp-github-gist-block")}
+				value={attributes.gistId ?? ""}
 			></input>
+			{attributes.gistId && (
+				<div style={{ marginTop: "10px" }}>
+					{isValidGistId ? (
+						<span
+							style={{
+								color: "green",
+								display: "flex",
+								alignItems: "center",
+								gap: "5px",
+							}}
+						>
+							✅ {__("Valid Gist ID", "wp-github-gist-block")}
+						</span>
+					) : (
+						<span
+							style={{
+								color: "red",
+								display: "flex",
+								alignItems: "center",
+								gap: "5px",
+							}}
+						>
+							❌ {__("Invalid Gist ID", "wp-github-gist-block")}
+						</span>
+					)}
+				</div>
+			)}
 		</>
 	);
 }

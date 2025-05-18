@@ -8,7 +8,7 @@
   \*********************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/wp-github-gist-block","version":"0.1.1","title":"Wp Github Gist Block","category":"widgets","icon":"embed-generic","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"wp-github-gist-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"gistUrl":{"type":"string","default":""}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/wp-github-gist-block","version":"0.1.1","title":"Wp Github Gist Block","category":"widgets","icon":"embed-generic","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"wp-github-gist-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","attributes":{"gistId":{"type":"string","default":""}}}');
 
 /***/ }),
 
@@ -29,6 +29,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editor.scss */ "./src/wp-github-gist-block/editor.scss");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
 
 /**
  * Retrieves the translation of text.
@@ -50,23 +52,61 @@ __webpack_require__.r(__webpack_exports__);
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
 
+
 function Edit({
   attributes,
   setAttributes
 }) {
   var _a;
+  const [isValidGistId, setIsValidGistId] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
+  (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
+    if (attributes.gistId) {
+      fetch(`https://api.github.com/gists/${attributes.gistId}`).then(response => {
+        if (response.ok) {
+          setIsValidGistId(true);
+        } else {
+          setIsValidGistId(false);
+        }
+      }).catch(error => {
+        console.error("Error fetching Gist ID:", error);
+        setIsValidGistId(false);
+      });
+    }
+  }, [attributes.gistId]);
   return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
-      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Gist URL", "wp-github-gist-block")
+      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Gist ID", "wp-github-gist-block")
     }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", Object.assign({}, (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(), {
       type: "text",
-      onChange: e => {
+      onChange: event => {
         setAttributes({
-          gistUrl: e.target.value
+          gistId: event.target.value
         });
       },
-      value: (_a = attributes.gistUrl) !== null && _a !== void 0 ? _a : ""
-    }))]
+      placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Enter Gist ID", "wp-github-gist-block"),
+      value: (_a = attributes.gistId) !== null && _a !== void 0 ? _a : ""
+    })), attributes.gistId && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+      style: {
+        marginTop: "10px"
+      },
+      children: isValidGistId ? (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+        style: {
+          color: "green",
+          display: "flex",
+          alignItems: "center",
+          gap: "5px"
+        },
+        children: ["\u2705 ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Valid Gist ID", "wp-github-gist-block")]
+      }) : (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("span", {
+        style: {
+          color: "red",
+          display: "flex",
+          alignItems: "center",
+          gap: "5px"
+        },
+        children: ["\u274C ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Invalid Gist ID", "wp-github-gist-block")]
+      })
+    })]
   });
 }
 
@@ -174,6 +214,16 @@ module.exports = window["wp"]["blocks"];
 /***/ ((module) => {
 
 module.exports = window["wp"]["i18n"];
+
+/***/ }),
+
+/***/ "react":
+/*!************************!*\
+  !*** external "React" ***!
+  \************************/
+/***/ ((module) => {
+
+module.exports = window["React"];
 
 /***/ }),
 

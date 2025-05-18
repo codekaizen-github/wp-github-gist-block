@@ -22,7 +22,7 @@ return array(
 		'style' => 'file:./style-index.css',
 		'viewScript' => 'file:./view.js',
 		'attributes' => array(
-			'gistUrl' => array(
+			'gistId' => array(
 				'type' => 'string',
 				'default' => ''
 			)

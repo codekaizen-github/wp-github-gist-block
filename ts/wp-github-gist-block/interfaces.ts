@@ -1,5 +1,5 @@
 export interface CustomBlockAttributes {
-	gistUrl: { type: "string"; default: string };
+	gistId: { type: "string"; default: string };
 }
 
 type CustomDerivedAttributes<T> = {
