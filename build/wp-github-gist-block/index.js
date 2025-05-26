@@ -14,53 +14,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/wp-github-gist-block/GistIdDisplay.js":
-/*!***************************************************!*\
-  !*** ./src/wp-github-gist-block/GistIdDisplay.js ***!
-  \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ GistIdDisplay)
-/* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
-/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
-
-
-function GistIdDisplay({
-  gistId,
-  isValid
-}) {
-  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-    style: {
-      marginTop: 12,
-      display: "flex",
-      alignItems: "center",
-      gap: 8
-    },
-    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-      style: {
-        color: "#555"
-      },
-      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Current Gist ID:", "wp-github-gist-block")
-    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("code", {
-      children: gistId
-    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-      className: "fas fa-check",
-      style: {
-        color: "green",
-        marginLeft: 8,
-        display: isValid ? "inline" : "none"
-      }
-    })]
-  });
-}
-
-/***/ }),
-
 /***/ "./src/wp-github-gist-block/GistIdModal.js":
 /*!*************************************************!*\
   !*** ./src/wp-github-gist-block/GistIdModal.js ***!
@@ -115,13 +68,13 @@ function GistIdModal({
           width: "100%",
           background: "#fff",
           backgroundColor: input ? isValid ? "rgba(144, 238, 144, 0.2)" : "rgba(255, 99, 71, 0.1)" : "#fff",
-          paddingRight: "30px",
           border: "1px solid #dcdcde",
           borderRadius: "4px",
           boxShadow: "none",
           outline: "none",
           fontSize: "16px",
           padding: "8px 12px",
+          paddingRight: "2rem",
           transition: "border-color 0.2s"
         },
         onFocus: e => e.target.style.borderColor = "#757575",
@@ -132,7 +85,8 @@ function GistIdModal({
           right: "10px",
           top: "50%",
           transform: "translateY(-50%)",
-          color: isValid ? "green" : "red"
+          color: isValid ? "green" : "red",
+          marginRight: "1rem"
         },
         children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
           className: isValid ? "fas fa-check" : "fas fa-times"
@@ -153,6 +107,135 @@ function GistIdModal({
         disabled: !isValid,
         onClick: () => onSave(input),
         children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Save", "wp-github-gist-block")
+      })]
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./src/wp-github-gist-block/GistPreview.js":
+/*!*************************************************!*\
+  !*** ./src/wp-github-gist-block/GistPreview.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ GistPreview)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+function GistPreview({
+  gistId,
+  isValid
+}) {
+  var _a;
+  const [gist, setGist] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (!isValid || !gistId) {
+      setGist(null);
+      setError(null);
+      return;
+    }
+    setLoading(true);
+    setError(null);
+    fetch(`https://api.github.com/gists/${gistId}`).then(res => {
+      if (!res.ok) throw new Error("Failed to fetch gist");
+      return res.json();
+    }).then(data => {
+      setGist(data);
+    }).catch(e => setError(e.message)).finally(() => setLoading(false));
+  }, [gistId, isValid]);
+  if (!isValid) return null;
+  if (loading) return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+    children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Loading gist information...", "wp-github-gist-block")
+  });
+  if (error) return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+    style: {
+      color: "red"
+    },
+    children: error
+  });
+  if (!gist) return null;
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+    style: {
+      marginTop: 16,
+      background: "#f6f7f7",
+      border: "1px solid #e2e4e7",
+      borderRadius: 8,
+      padding: 16,
+      maxWidth: 420,
+      boxShadow: "0 1px 2px rgba(0,0,0,0.03)",
+      fontSize: 15
+    },
+    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        marginBottom: 8
+      },
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+        style: {
+          fontWeight: 500,
+          marginRight: 8
+        },
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Gist ID:", "wp-github-gist-block")
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("code", {
+        style: {
+          fontSize: 14
+        },
+        children: gistId
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+        className: "fas fa-check",
+        style: {
+          color: "green",
+          marginLeft: 8,
+          display: isValid ? "inline" : "none"
+        }
+      })]
+    }), ((_a = gist.owner) === null || _a === void 0 ? void 0 : _a.login) && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      style: {
+        marginBottom: 8,
+        color: "#333"
+      },
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+        style: {
+          fontWeight: 500
+        },
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Owner:", "wp-github-gist-block")
+      }), " ", gist.owner.login]
+    }), gist.files && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      style: {
+        marginBottom: 0
+      },
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+        style: {
+          fontWeight: 500
+        },
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Files:", "wp-github-gist-block")
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("ul", {
+        style: {
+          margin: 0,
+          paddingLeft: 20,
+          listStyle: "disc"
+        },
+        children: Object.values(gist.files).map(file => (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("li", {
+          style: {
+            fontSize: 14,
+            color: "#222"
+          },
+          children: file.filename
+        }, file.filename))
       })]
     })]
   });
@@ -193,7 +276,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _fortawesome_fontawesome_free_css_all_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fortawesome/fontawesome-free/css/all.min.css */ "./node_modules/@fortawesome/fontawesome-free/css/all.min.css");
 /* harmony import */ var _GistIdModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./GistIdModal */ "./src/wp-github-gist-block/GistIdModal.js");
-/* harmony import */ var _GistIdDisplay__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./GistIdDisplay */ "./src/wp-github-gist-block/GistIdDisplay.js");
+/* harmony import */ var _GistPreview__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./GistPreview */ "./src/wp-github-gist-block/GistPreview.js");
 /* harmony import */ var _hooks_useGistValidation__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./hooks/useGistValidation */ "./src/wp-github-gist-block/hooks/useGistValidation.js");
 
 /**
@@ -226,10 +309,9 @@ function Edit({
   attributes,
   setAttributes
 }) {
-  var _a, _b, _c, _d;
+  var _a, _b, _c;
   const [isModalOpen, setIsModalOpen] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
-  const [gistIdInput, setGistIdInput] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)((_a = attributes.gistId) !== null && _a !== void 0 ? _a : "");
-  const isSavedGistIdValid = (0,_hooks_useGistValidation__WEBPACK_IMPORTED_MODULE_9__.useGistValidation)((_b = attributes.gistId) !== null && _b !== void 0 ? _b : "");
+  const isSavedGistIdValid = (0,_hooks_useGistValidation__WEBPACK_IMPORTED_MODULE_9__.useGistValidation)((_a = attributes.gistId) !== null && _a !== void 0 ? _a : "");
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
   if (!attributes.gistId) {
     return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Placeholder, {
@@ -245,7 +327,6 @@ function Edit({
       children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
         variant: "primary",
         onClick: () => {
-          setGistIdInput("");
           setIsModalOpen(true);
         },
         children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add Gist ID", "wp-github-gist-block")
@@ -265,16 +346,14 @@ function Edit({
     children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
       variant: "primary",
       onClick: () => {
-        var _a;
-        setGistIdInput((_a = attributes.gistId) !== null && _a !== void 0 ? _a : "");
         setIsModalOpen(true);
       },
       children: attributes.gistId ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Edit Gist ID", "wp-github-gist-block") : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add Gist ID", "wp-github-gist-block")
-    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_GistIdDisplay__WEBPACK_IMPORTED_MODULE_8__["default"], {
-      gistId: (_c = attributes.gistId) !== null && _c !== void 0 ? _c : "",
+    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_GistPreview__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      gistId: (_b = attributes.gistId) !== null && _b !== void 0 ? _b : "",
       isValid: isSavedGistIdValid
     }), isModalOpen && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_GistIdModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      initialValue: (_d = attributes.gistId) !== null && _d !== void 0 ? _d : "",
+      initialValue: (_c = attributes.gistId) !== null && _c !== void 0 ? _c : "",
       onSave: value => {
         setAttributes({
           gistId: value

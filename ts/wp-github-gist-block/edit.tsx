@@ -27,7 +27,7 @@ import { useState } from "react";
 import { Placeholder, Button } from "@wordpress/components";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import GistIdModal from "./GistIdModal";
-import GistIdDisplay from "./GistIdDisplay";
+import GistPreview from "./GistPreview";
 import { useGistValidation } from "./hooks/useGistValidation";
 
 export default function Edit({
@@ -35,9 +35,6 @@ export default function Edit({
 	setAttributes,
 }: BlockEditProps<CustomBlockEditProps>) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [gistIdInput, setGistIdInput] = useState<string>(
-		attributes.gistId ?? "",
-	);
 	const isSavedGistIdValid = useGistValidation(attributes.gistId ?? "");
 
 	const blockProps = useBlockProps();
@@ -56,7 +53,6 @@ export default function Edit({
 				<Button
 					variant="primary"
 					onClick={() => {
-						setGistIdInput("");
 						setIsModalOpen(true);
 					}}
 				>
@@ -81,7 +77,6 @@ export default function Edit({
 			<Button
 				variant="primary"
 				onClick={() => {
-					setGistIdInput(attributes.gistId ?? "");
 					setIsModalOpen(true);
 				}}
 			>
@@ -89,7 +84,7 @@ export default function Edit({
 					? __("Edit Gist ID", "wp-github-gist-block")
 					: __("Add Gist ID", "wp-github-gist-block")}
 			</Button>
-			<GistIdDisplay
+			<GistPreview
 				gistId={attributes.gistId ?? ""}
 				isValid={isSavedGistIdValid}
 			/>
