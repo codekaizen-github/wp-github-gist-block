@@ -43,7 +43,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editor.scss */ "./src/wp-github-gist-block/editor.scss");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _fortawesome_fontawesome_free_css_all_min_css__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @fortawesome/fontawesome-free/css/all.min.css */ "./node_modules/@fortawesome/fontawesome-free/css/all.min.css");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _fortawesome_fontawesome_free_css_all_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fortawesome/fontawesome-free/css/all.min.css */ "./node_modules/@fortawesome/fontawesome-free/css/all.min.css");
 
 /**
  * Retrieves the translation of text.
@@ -64,6 +66,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
+
 
 
 
@@ -98,41 +101,51 @@ function Edit({
       setIsValidGistId(false);
     }
   }, [debouncedGistId]);
-  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", {
-      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Gist ID", "wp-github-gist-block")
-    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-      style: {
-        position: "relative",
-        display: "inline-block",
-        width: "100%"
-      },
-      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", Object.assign({}, (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(), {
-        type: "text",
-        onChange: event => {
-          setAttributes({
-            gistId: event.target.value
-          });
-        },
-        placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Enter Gist ID", "wp-github-gist-block"),
-        value: (_a = attributes.gistId) !== null && _a !== void 0 ? _a : "",
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Placeholder, {
+      icon: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+        className: "fab fa-github",
         style: {
-          width: "100%",
-          backgroundColor: attributes.gistId ? isValidGistId ? "rgba(144, 238, 144, 0.2)" : "rgba(255, 99, 71, 0.1)" : "transparent"
+          marginRight: 4
         }
-      })), attributes.gistId && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+      }),
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("GitHub Gist", "wp-github-gist-block"),
+      instructions: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Enter the Gist ID to display the content.", "wp-github-gist-block"),
+      className: "github-gist-placeholder",
+      children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         style: {
-          position: "absolute",
-          right: "0",
-          top: "50%",
-          transform: "translateY(-50%)",
-          color: isValidGistId ? "green" : "red"
+          position: "relative",
+          display: "inline-block",
+          width: "100%"
         },
-        children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-          className: isValidGistId ? "fas fa-check" : "fas fa-times"
-        })
-      })]
-    })]
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", Object.assign({}, (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(), {
+          type: "text",
+          onChange: event => {
+            setAttributes({
+              gistId: event.target.value
+            });
+          },
+          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Enter Gist ID", "wp-github-gist-block"),
+          value: (_a = attributes.gistId) !== null && _a !== void 0 ? _a : "",
+          style: {
+            width: "-webkit-fill-available",
+            backgroundColor: attributes.gistId ? isValidGistId ? "rgba(144, 238, 144, 0.2)" : "rgba(255, 99, 71, 0.1)" : "transparent"
+          }
+        })), attributes.gistId && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+          style: {
+            position: "absolute",
+            right: "0",
+            top: "50%",
+            transform: "translateY(-50%)",
+            color: isValidGistId ? "green" : "red",
+            marginRight: "1rem"
+          },
+          children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+            className: isValidGistId ? "fas fa-check" : "fas fa-times"
+          })
+        })]
+      })
+    })
   });
 }
 
@@ -230,6 +243,16 @@ module.exports = window["wp"]["blockEditor"];
 /***/ ((module) => {
 
 module.exports = window["wp"]["blocks"];
+
+/***/ }),
+
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["components"];
 
 /***/ }),
 

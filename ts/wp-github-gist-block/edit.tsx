@@ -24,6 +24,7 @@ import "./editor.scss";
 import { BlockEditProps } from "@wordpress/blocks";
 import { CustomBlockEditProps } from "./interfaces";
 import { useState, useEffect } from "react";
+import { Placeholder } from "@wordpress/components";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 export default function Edit({
@@ -66,41 +67,58 @@ export default function Edit({
 
 	return (
 		<>
-			<p>{__("Gist ID", "wp-github-gist-block")}</p>
-			<div
-				style={{ position: "relative", display: "inline-block", width: "100%" }}
-			>
-				<input
-					{...useBlockProps()}
-					type="text"
-					onChange={(event) => {
-						setAttributes({ gistId: event.target.value });
-					}}
-					placeholder={__("Enter Gist ID", "wp-github-gist-block")}
-					value={attributes.gistId ?? ""}
-					style={{
-						width: "100%",
-						backgroundColor: attributes.gistId
-							? isValidGistId
-								? "rgba(144, 238, 144, 0.2)"
-								: "rgba(255, 99, 71, 0.1)"
-							: "transparent",
-					}}
-				/>
-				{attributes.gistId && (
-					<span
+			<Placeholder
+				icon={<i className="fab fa-github" style={{ marginRight: 4 }}></i>}
+				label={__("GitHub Gist", "wp-github-gist-block")}
+				instructions={__(
+					"Enter the Gist ID to display the content.",
+					"wp-github-gist-block",
+				)}
+				className="github-gist-placeholder"
+				children={
+					<div
 						style={{
-							position: "absolute",
-							right: "0",
-							top: "50%",
-							transform: "translateY(-50%)",
-							color: isValidGistId ? "green" : "red",
+							position: "relative",
+							display: "inline-block",
+							width: "100%",
 						}}
 					>
-						<i className={isValidGistId ? "fas fa-check" : "fas fa-times"}></i>
-					</span>
-				)}
-			</div>
+						<input
+							{...useBlockProps()}
+							type="text"
+							onChange={(event) => {
+								setAttributes({ gistId: event.target.value });
+							}}
+							placeholder={__("Enter Gist ID", "wp-github-gist-block")}
+							value={attributes.gistId ?? ""}
+							style={{
+								width: "-webkit-fill-available",
+								backgroundColor: attributes.gistId
+									? isValidGistId
+										? "rgba(144, 238, 144, 0.2)"
+										: "rgba(255, 99, 71, 0.1)"
+									: "transparent",
+							}}
+						/>
+						{attributes.gistId && (
+							<span
+								style={{
+									position: "absolute",
+									right: "0",
+									top: "50%",
+									transform: "translateY(-50%)",
+									color: isValidGistId ? "green" : "red",
+									marginRight: "1rem",
+								}}
+							>
+								<i
+									className={isValidGistId ? "fas fa-check" : "fas fa-times"}
+								></i>
+							</span>
+						)}
+					</div>
+				}
+			/>
 		</>
 	);
 }
