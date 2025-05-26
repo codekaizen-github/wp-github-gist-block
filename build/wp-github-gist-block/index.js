@@ -75,34 +75,41 @@ function Edit({
   setAttributes
 }) {
   var _a;
+  const [isModalOpen, setIsModalOpen] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
+  const [gistIdInput, setGistIdInput] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)((_a = attributes.gistId) !== null && _a !== void 0 ? _a : "");
   const [isValidGistId, setIsValidGistId] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
   const [debouncedGistId, setDebouncedGistId] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(attributes.gistId);
+  const [isSavedGistIdValid, setIsSavedGistIdValid] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
+  // Debounce input inside modal
   (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
     const handler = setTimeout(() => {
-      setDebouncedGistId(attributes.gistId);
+      setDebouncedGistId(gistIdInput);
     }, 500);
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [attributes.gistId]);
+    return () => clearTimeout(handler);
+  }, [gistIdInput]);
+  // Validate debounced input (modal input)
   (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
     if (debouncedGistId) {
       fetch(`https://api.github.com/gists/${debouncedGistId}`).then(response => {
-        if (response.ok) {
-          setIsValidGistId(true);
-        } else {
-          setIsValidGistId(false);
-        }
-      }).catch(error => {
-        console.error("Error fetching Gist ID:", error);
-        setIsValidGistId(false);
-      });
+        setIsValidGistId(response.ok);
+      }).catch(() => setIsValidGistId(false));
     } else {
       setIsValidGistId(false);
     }
   }, [debouncedGistId]);
-  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Placeholder, {
+  // Validate saved gistId for main block checkmark
+  (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
+    if (attributes.gistId) {
+      fetch(`https://api.github.com/gists/${attributes.gistId}`).then(response => {
+        setIsSavedGistIdValid(response.ok);
+      }).catch(() => setIsSavedGistIdValid(false));
+    } else {
+      setIsSavedGistIdValid(false);
+    }
+  }, [attributes.gistId]);
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
+  if (!attributes.gistId) {
+    return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Placeholder, {
       icon: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
         className: "fab fa-github",
         style: {
@@ -112,41 +119,185 @@ function Edit({
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("GitHub Gist", "wp-github-gist-block"),
       instructions: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Enter the Gist ID to display the content.", "wp-github-gist-block"),
       className: "github-gist-placeholder",
-      children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
+        variant: "primary",
+        onClick: () => {
+          setGistIdInput("");
+          setIsModalOpen(true);
+        },
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add Gist ID", "wp-github-gist-block")
+      }), isModalOpen && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Modal, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Set GitHub Gist ID", "wp-github-gist-block"),
+        onRequestClose: () => setIsModalOpen(false),
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+          style: {
+            position: "relative",
+            width: "100%",
+            marginBottom: 24,
+            background: "#f6f7f7",
+            border: "1px solid #dcdcde",
+            borderRadius: "6px",
+            padding: "24px 16px",
+            boxSizing: "border-box"
+          },
+          children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+            type: "text",
+            value: gistIdInput,
+            onChange: e => setGistIdInput(e.target.value),
+            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Enter Gist ID", "wp-github-gist-block"),
+            style: {
+              width: "100%",
+              background: "#fff",
+              backgroundColor: gistIdInput ? isValidGistId ? "rgba(144, 238, 144, 0.2)" : "rgba(255, 99, 71, 0.1)" : "#fff",
+              paddingRight: "30px",
+              border: "1px solid #dcdcde",
+              borderRadius: "4px",
+              boxShadow: "none",
+              outline: "none",
+              fontSize: "16px",
+              padding: "8px 12px",
+              transition: "border-color 0.2s"
+            },
+            onFocus: e => e.target.style.borderColor = "#757575",
+            onBlur: e => e.target.style.borderColor = "#dcdcde"
+          }), gistIdInput && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            style: {
+              position: "absolute",
+              right: "10px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              color: isValidGistId ? "green" : "red"
+            },
+            children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+              className: isValidGistId ? "fas fa-check" : "fas fa-times"
+            })
+          })]
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+          style: {
+            display: "flex",
+            justifyContent: "flex-end",
+            gap: 8
+          },
+          children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
+            variant: "secondary",
+            onClick: () => setIsModalOpen(false),
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Cancel", "wp-github-gist-block")
+          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
+            variant: "primary",
+            disabled: !isValidGistId,
+            onClick: () => {
+              setAttributes({
+                gistId: gistIdInput
+              });
+              setIsModalOpen(false);
+            },
+            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Save", "wp-github-gist-block")
+          })]
+        })]
+      })]
+    });
+  }
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", Object.assign({}, blockProps, {
+    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
+      variant: "primary",
+      onClick: () => {
+        var _a;
+        setGistIdInput((_a = attributes.gistId) !== null && _a !== void 0 ? _a : "");
+        setIsModalOpen(true);
+      },
+      children: attributes.gistId ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Edit Gist ID", "wp-github-gist-block") : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add Gist ID", "wp-github-gist-block")
+    }), attributes.gistId && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      style: {
+        marginTop: 12,
+        display: "flex",
+        alignItems: "center",
+        gap: 8
+      },
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+        style: {
+          color: "#555"
+        },
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Current Gist ID:", "wp-github-gist-block")
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("code", {
+        children: attributes.gistId
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+        className: "fas fa-check",
+        style: {
+          color: "green",
+          marginLeft: 8,
+          display: isSavedGistIdValid ? "inline" : "none"
+        }
+      })]
+    }), isModalOpen && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Modal, {
+      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Set GitHub Gist ID", "wp-github-gist-block"),
+      onRequestClose: () => setIsModalOpen(false),
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
         style: {
           position: "relative",
-          display: "inline-block",
-          width: "100%"
+          width: "100%",
+          marginBottom: 24,
+          background: "#f6f7f7",
+          border: "1px solid #dcdcde",
+          borderRadius: "6px",
+          padding: "24px 16px",
+          boxSizing: "border-box"
         },
-        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", Object.assign({}, (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)(), {
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
           type: "text",
-          onChange: event => {
-            setAttributes({
-              gistId: event.target.value
-            });
-          },
+          value: gistIdInput,
+          onChange: e => setGistIdInput(e.target.value),
           placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Enter Gist ID", "wp-github-gist-block"),
-          value: (_a = attributes.gistId) !== null && _a !== void 0 ? _a : "",
           style: {
-            width: "-webkit-fill-available",
-            backgroundColor: attributes.gistId ? isValidGistId ? "rgba(144, 238, 144, 0.2)" : "rgba(255, 99, 71, 0.1)" : "transparent"
-          }
-        })), attributes.gistId && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+            width: "100%",
+            background: "#fff",
+            backgroundColor: gistIdInput ? isValidGistId ? "rgba(144, 238, 144, 0.2)" : "rgba(255, 99, 71, 0.1)" : "#fff",
+            paddingRight: "30px",
+            border: "1px solid #dcdcde",
+            borderRadius: "4px",
+            boxShadow: "none",
+            outline: "none",
+            fontSize: "16px",
+            padding: "8px 12px",
+            transition: "border-color 0.2s"
+          },
+          onFocus: e => e.target.style.borderColor = "#757575",
+          onBlur: e => e.target.style.borderColor = "#dcdcde"
+        }), gistIdInput && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
           style: {
             position: "absolute",
-            right: "0",
+            right: "10px",
             top: "50%",
             transform: "translateY(-50%)",
-            color: isValidGistId ? "green" : "red",
-            marginRight: "1rem"
+            color: isValidGistId ? "green" : "red"
           },
           children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
             className: isValidGistId ? "fas fa-check" : "fas fa-times"
           })
         })]
-      })
-    })
-  });
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+        style: {
+          display: "flex",
+          justifyContent: "flex-end",
+          gap: 8
+        },
+        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
+          variant: "secondary",
+          onClick: () => setIsModalOpen(false),
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Cancel", "wp-github-gist-block")
+        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
+          variant: "primary",
+          disabled: !isValidGistId,
+          onClick: () => {
+            setAttributes({
+              gistId: gistIdInput
+            });
+            setIsModalOpen(false);
+          },
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Save", "wp-github-gist-block")
+        })]
+      })]
+    })]
+  }));
 }
 
 /***/ }),
