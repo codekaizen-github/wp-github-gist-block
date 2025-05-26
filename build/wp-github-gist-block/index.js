@@ -14,6 +14,152 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/wp-github-gist-block/GistIdDisplay.js":
+/*!***************************************************!*\
+  !*** ./src/wp-github-gist-block/GistIdDisplay.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ GistIdDisplay)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function GistIdDisplay({
+  gistId,
+  isValid
+}) {
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+    style: {
+      marginTop: 12,
+      display: "flex",
+      alignItems: "center",
+      gap: 8
+    },
+    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+      style: {
+        color: "#555"
+      },
+      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Current Gist ID:", "wp-github-gist-block")
+    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("code", {
+      children: gistId
+    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+      className: "fas fa-check",
+      style: {
+        color: "green",
+        marginLeft: 8,
+        display: isValid ? "inline" : "none"
+      }
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./src/wp-github-gist-block/GistIdModal.js":
+/*!*************************************************!*\
+  !*** ./src/wp-github-gist-block/GistIdModal.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ GistIdModal)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _hooks_useGistValidation__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./hooks/useGistValidation */ "./src/wp-github-gist-block/hooks/useGistValidation.js");
+
+
+
+
+
+function GistIdModal({
+  initialValue,
+  onSave,
+  onCancel
+}) {
+  const [input, setInput] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(initialValue);
+  const isValid = (0,_hooks_useGistValidation__WEBPACK_IMPORTED_MODULE_4__.useGistValidation)(input);
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Modal, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Set GitHub Gist ID", "wp-github-gist-block"),
+    onRequestClose: onCancel,
+    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      style: {
+        position: "relative",
+        width: "100%",
+        marginBottom: 24,
+        background: "#f6f7f7",
+        border: "1px solid #dcdcde",
+        borderRadius: "6px",
+        padding: "24px 16px",
+        boxSizing: "border-box"
+      },
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
+        type: "text",
+        value: input,
+        onChange: e => setInput(e.target.value),
+        placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Enter Gist ID", "wp-github-gist-block"),
+        style: {
+          width: "100%",
+          background: "#fff",
+          backgroundColor: input ? isValid ? "rgba(144, 238, 144, 0.2)" : "rgba(255, 99, 71, 0.1)" : "#fff",
+          paddingRight: "30px",
+          border: "1px solid #dcdcde",
+          borderRadius: "4px",
+          boxShadow: "none",
+          outline: "none",
+          fontSize: "16px",
+          padding: "8px 12px",
+          transition: "border-color 0.2s"
+        },
+        onFocus: e => e.target.style.borderColor = "#757575",
+        onBlur: e => e.target.style.borderColor = "#dcdcde"
+      }), input && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
+        style: {
+          position: "absolute",
+          right: "10px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          color: isValid ? "green" : "red"
+        },
+        children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
+          className: isValid ? "fas fa-check" : "fas fa-times"
+        })
+      })]
+    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      style: {
+        display: "flex",
+        justifyContent: "flex-end",
+        gap: 8
+      },
+      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+        variant: "secondary",
+        onClick: onCancel,
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Cancel", "wp-github-gist-block")
+      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+        variant: "primary",
+        disabled: !isValid,
+        onClick: () => onSave(input),
+        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("Save", "wp-github-gist-block")
+      })]
+    })]
+  });
+}
+
+/***/ }),
+
 /***/ "./src/wp-github-gist-block/block.json":
 /*!*********************************************!*\
   !*** ./src/wp-github-gist-block/block.json ***!
@@ -46,6 +192,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _fortawesome_fontawesome_free_css_all_min_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @fortawesome/fontawesome-free/css/all.min.css */ "./node_modules/@fortawesome/fontawesome-free/css/all.min.css");
+/* harmony import */ var _GistIdModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./GistIdModal */ "./src/wp-github-gist-block/GistIdModal.js");
+/* harmony import */ var _GistIdDisplay__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./GistIdDisplay */ "./src/wp-github-gist-block/GistIdDisplay.js");
+/* harmony import */ var _hooks_useGistValidation__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./hooks/useGistValidation */ "./src/wp-github-gist-block/hooks/useGistValidation.js");
 
 /**
  * Retrieves the translation of text.
@@ -70,43 +219,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 function Edit({
   attributes,
   setAttributes
 }) {
-  var _a;
+  var _a, _b, _c, _d;
   const [isModalOpen, setIsModalOpen] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
   const [gistIdInput, setGistIdInput] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)((_a = attributes.gistId) !== null && _a !== void 0 ? _a : "");
-  const [isValidGistId, setIsValidGistId] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
-  const [debouncedGistId, setDebouncedGistId] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(attributes.gistId);
-  const [isSavedGistIdValid, setIsSavedGistIdValid] = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false);
-  // Debounce input inside modal
-  (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
-    const handler = setTimeout(() => {
-      setDebouncedGistId(gistIdInput);
-    }, 500);
-    return () => clearTimeout(handler);
-  }, [gistIdInput]);
-  // Validate debounced input (modal input)
-  (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
-    if (debouncedGistId) {
-      fetch(`https://api.github.com/gists/${debouncedGistId}`).then(response => {
-        setIsValidGistId(response.ok);
-      }).catch(() => setIsValidGistId(false));
-    } else {
-      setIsValidGistId(false);
-    }
-  }, [debouncedGistId]);
-  // Validate saved gistId for main block checkmark
-  (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(() => {
-    if (attributes.gistId) {
-      fetch(`https://api.github.com/gists/${attributes.gistId}`).then(response => {
-        setIsSavedGistIdValid(response.ok);
-      }).catch(() => setIsSavedGistIdValid(false));
-    } else {
-      setIsSavedGistIdValid(false);
-    }
-  }, [attributes.gistId]);
+  const isSavedGistIdValid = (0,_hooks_useGistValidation__WEBPACK_IMPORTED_MODULE_9__.useGistValidation)((_b = attributes.gistId) !== null && _b !== void 0 ? _b : "");
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
   if (!attributes.gistId) {
     return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Placeholder, {
@@ -126,74 +249,15 @@ function Edit({
           setIsModalOpen(true);
         },
         children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add Gist ID", "wp-github-gist-block")
-      }), isModalOpen && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Modal, {
-        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Set GitHub Gist ID", "wp-github-gist-block"),
-        onRequestClose: () => setIsModalOpen(false),
-        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-          style: {
-            position: "relative",
-            width: "100%",
-            marginBottom: 24,
-            background: "#f6f7f7",
-            border: "1px solid #dcdcde",
-            borderRadius: "6px",
-            padding: "24px 16px",
-            boxSizing: "border-box"
-          },
-          children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-            type: "text",
-            value: gistIdInput,
-            onChange: e => setGistIdInput(e.target.value),
-            placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Enter Gist ID", "wp-github-gist-block"),
-            style: {
-              width: "100%",
-              background: "#fff",
-              backgroundColor: gistIdInput ? isValidGistId ? "rgba(144, 238, 144, 0.2)" : "rgba(255, 99, 71, 0.1)" : "#fff",
-              paddingRight: "30px",
-              border: "1px solid #dcdcde",
-              borderRadius: "4px",
-              boxShadow: "none",
-              outline: "none",
-              fontSize: "16px",
-              padding: "8px 12px",
-              transition: "border-color 0.2s"
-            },
-            onFocus: e => e.target.style.borderColor = "#757575",
-            onBlur: e => e.target.style.borderColor = "#dcdcde"
-          }), gistIdInput && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-            style: {
-              position: "absolute",
-              right: "10px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              color: isValidGistId ? "green" : "red"
-            },
-            children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-              className: isValidGistId ? "fas fa-check" : "fas fa-times"
-            })
-          })]
-        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-          style: {
-            display: "flex",
-            justifyContent: "flex-end",
-            gap: 8
-          },
-          children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
-            variant: "secondary",
-            onClick: () => setIsModalOpen(false),
-            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Cancel", "wp-github-gist-block")
-          }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
-            variant: "primary",
-            disabled: !isValidGistId,
-            onClick: () => {
-              setAttributes({
-                gistId: gistIdInput
-              });
-              setIsModalOpen(false);
-            },
-            children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Save", "wp-github-gist-block")
-          })]
-        })]
+      }), isModalOpen && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_GistIdModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        initialValue: "",
+        onSave: value => {
+          setAttributes({
+            gistId: value
+          });
+          setIsModalOpen(false);
+        },
+        onCancel: () => setIsModalOpen(false)
       })]
     });
   }
@@ -206,96 +270,18 @@ function Edit({
         setIsModalOpen(true);
       },
       children: attributes.gistId ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Edit Gist ID", "wp-github-gist-block") : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add Gist ID", "wp-github-gist-block")
-    }), attributes.gistId && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-      style: {
-        marginTop: 12,
-        display: "flex",
-        alignItems: "center",
-        gap: 8
+    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_GistIdDisplay__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      gistId: (_c = attributes.gistId) !== null && _c !== void 0 ? _c : "",
+      isValid: isSavedGistIdValid
+    }), isModalOpen && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_GistIdModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      initialValue: (_d = attributes.gistId) !== null && _d !== void 0 ? _d : "",
+      onSave: value => {
+        setAttributes({
+          gistId: value
+        });
+        setIsModalOpen(false);
       },
-      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-        style: {
-          color: "#555"
-        },
-        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Current Gist ID:", "wp-github-gist-block")
-      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("code", {
-        children: attributes.gistId
-      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-        className: "fas fa-check",
-        style: {
-          color: "green",
-          marginLeft: 8,
-          display: isSavedGistIdValid ? "inline" : "none"
-        }
-      })]
-    }), isModalOpen && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Modal, {
-      title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Set GitHub Gist ID", "wp-github-gist-block"),
-      onRequestClose: () => setIsModalOpen(false),
-      children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-        style: {
-          position: "relative",
-          width: "100%",
-          marginBottom: 24,
-          background: "#f6f7f7",
-          border: "1px solid #dcdcde",
-          borderRadius: "6px",
-          padding: "24px 16px",
-          boxSizing: "border-box"
-        },
-        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("input", {
-          type: "text",
-          value: gistIdInput,
-          onChange: e => setGistIdInput(e.target.value),
-          placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Enter Gist ID", "wp-github-gist-block"),
-          style: {
-            width: "100%",
-            background: "#fff",
-            backgroundColor: gistIdInput ? isValidGistId ? "rgba(144, 238, 144, 0.2)" : "rgba(255, 99, 71, 0.1)" : "#fff",
-            paddingRight: "30px",
-            border: "1px solid #dcdcde",
-            borderRadius: "4px",
-            boxShadow: "none",
-            outline: "none",
-            fontSize: "16px",
-            padding: "8px 12px",
-            transition: "border-color 0.2s"
-          },
-          onFocus: e => e.target.style.borderColor = "#757575",
-          onBlur: e => e.target.style.borderColor = "#dcdcde"
-        }), gistIdInput && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("span", {
-          style: {
-            position: "absolute",
-            right: "10px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            color: isValidGistId ? "green" : "red"
-          },
-          children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("i", {
-            className: isValidGistId ? "fas fa-check" : "fas fa-times"
-          })
-        })]
-      }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-        style: {
-          display: "flex",
-          justifyContent: "flex-end",
-          gap: 8
-        },
-        children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
-          variant: "secondary",
-          onClick: () => setIsModalOpen(false),
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Cancel", "wp-github-gist-block")
-        }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.Button, {
-          variant: "primary",
-          disabled: !isValidGistId,
-          onClick: () => {
-            setAttributes({
-              gistId: gistIdInput
-            });
-            setIsModalOpen(false);
-          },
-          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Save", "wp-github-gist-block")
-        })]
-      })]
+      onCancel: () => setIsModalOpen(false)
     })]
   }));
 }
@@ -311,6 +297,40 @@ function Edit({
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
+
+/***/ }),
+
+/***/ "./src/wp-github-gist-block/hooks/useGistValidation.js":
+/*!*************************************************************!*\
+  !*** ./src/wp-github-gist-block/hooks/useGistValidation.js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useGistValidation: () => (/* binding */ useGistValidation)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+function useGistValidation(gistId) {
+  const [isValid, setIsValid] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [debouncedGistId, setDebouncedGistId] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(gistId);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    const handler = setTimeout(() => {
+      setDebouncedGistId(gistId);
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [gistId]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (debouncedGistId) {
+      fetch(`https://api.github.com/gists/${debouncedGistId}`).then(response => setIsValid(response.ok)).catch(() => setIsValid(false));
+    } else {
+      setIsValid(false);
+    }
+  }, [debouncedGistId]);
+  return isValid;
+}
 
 /***/ }),
 
