@@ -27,15 +27,7 @@ if (empty($data['files'])): ?>
 <?php
     return;
 endif;
-
-// Fetch the Gist CSS for this particular Gist
-$gist_css_url = "https://gist.github.com/{$gist_id}.css";
-$gist_css = @file_get_contents($gist_css_url);
-if ($gist_css !== false): ?>
-    <style>
-        <?php echo $gist_css; ?>
-    </style>
-<?php endif; ?>
+?>
 
 <div class="wp-github-gist-block-list">
     <?php foreach ($data['files'] as $filename => $file):
