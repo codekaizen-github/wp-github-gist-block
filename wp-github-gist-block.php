@@ -57,3 +57,22 @@ function create_block_wp_github_gist_block_block_init() {
 	}
 }
 add_action( 'init', 'create_block_wp_github_gist_block_block_init' );
+
+// Enqueue frontend script and styles for Gist block
+add_action( 'wp_enqueue_scripts', function() {
+    if ( ! is_admin() ) {
+        wp_enqueue_script(
+            'wp-github-gist-block-frontend',
+            plugin_dir_url( __FILE__ ) . 'src/wp-github-gist-block/frontend.js',
+            array(),
+            filemtime( __DIR__ . '/src/wp-github-gist-block/frontend.js' ),
+            true
+        );
+        wp_enqueue_style(
+            'wp-github-gist-block-style',
+            plugin_dir_url( __FILE__ ) . 'src/wp-github-gist-block/style.css',
+            array(),
+            filemtime( __DIR__ . '/src/wp-github-gist-block/style.css' )
+        );
+    }
+});
