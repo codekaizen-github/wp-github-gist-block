@@ -21,6 +21,7 @@ return array(
 		'editorStyle' => 'file:./index.css',
 		'style' => 'file:./style-index.css',
 		'viewScript' => 'file:./view.js',
+		'render' => 'file:./render.php',
 		'attributes' => array(
 			'gistId' => array(
 				'type' => 'string',
