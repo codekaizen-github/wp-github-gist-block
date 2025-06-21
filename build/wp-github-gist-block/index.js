@@ -62157,6 +62157,98 @@ module.exports = zephir;
 
 /***/ }),
 
+/***/ "./src/wp-github-gist-block/CodeSnippetCard.js":
+/*!*****************************************************!*\
+  !*** ./src/wp-github-gist-block/CodeSnippetCard.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CodeSnippetCard)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _CodeSnippetPreview__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CodeSnippetPreview */ "./src/wp-github-gist-block/CodeSnippetPreview.js");
+
+
+
+
+function CodeSnippetCard({
+  filename,
+  language = "plaintext",
+  rawUrl
+}) {
+  const [content, setContent] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    fetch(rawUrl).then(res => {
+      if (!res.ok) throw new Error("Failed to fetch file content");
+      return res.text();
+    }).then(text => setContent(text)).catch(e => console.error("Error fetching file content:", e));
+  }, [rawUrl]);
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+    style: {
+      marginBottom: 16
+    },
+    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+      style: {
+        margin: "0 0 8px"
+      },
+      children: filename
+    }), null !== content ? (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_CodeSnippetPreview__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      language: language,
+      content: content
+    }) : (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+      style: {
+        color: "#999"
+      },
+      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Loading content...", "wp-github-gist-block")
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./src/wp-github-gist-block/CodeSnippetPreview.js":
+/*!********************************************************!*\
+  !*** ./src/wp-github-gist-block/CodeSnippetPreview.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CodeSnippetPreview)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var highlight_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! highlight.js */ "./node_modules/highlight.js/es/index.js");
+
+
+function CodeSnippetPreview({
+  language = "plaintext",
+  content
+}) {
+  const highlightedContent = highlight_js__WEBPACK_IMPORTED_MODULE_1__["default"].highlight(content, {
+    language: language
+  });
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("pre", {
+    children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("code", {
+      className: `language-${language.toLowerCase()}`,
+      dangerouslySetInnerHTML: {
+        __html: highlightedContent.value
+      }
+    })
+  });
+}
+
+/***/ }),
+
 /***/ "./src/wp-github-gist-block/GistIdModal.js":
 /*!*************************************************!*\
   !*** ./src/wp-github-gist-block/GistIdModal.js ***!
@@ -62275,59 +62367,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var highlight_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! highlight.js */ "./node_modules/highlight.js/es/index.js");
+/* harmony import */ var _CodeSnippetCard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CodeSnippetCard */ "./src/wp-github-gist-block/CodeSnippetCard.js");
 
 
 
 
-function CodeSnippetCard({
-  filename,
-  language = "plaintext",
-  rawUrl
-}) {
-  const [content, setContent] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    fetch(rawUrl).then(res => {
-      if (!res.ok) throw new Error("Failed to fetch file content");
-      return res.text();
-    }).then(text => setContent(text)).catch(e => console.error("Error fetching file content:", e));
-  }, [rawUrl]);
-  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-    style: {
-      marginBottom: 16
-    },
-    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h4", {
-      style: {
-        margin: "0 0 8px"
-      },
-      children: [filename, " (", language, ")"]
-    }), null !== content ? (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(CodeSnippetPreview, {
-      language: language,
-      content: content
-    }) : (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
-      style: {
-        color: "#999"
-      },
-      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)("Loading content...", "wp-github-gist-block")
-    })]
-  });
-}
-function CodeSnippetPreview({
-  language = "plaintext",
-  content
-}) {
-  const highlightedContent = highlight_js__WEBPACK_IMPORTED_MODULE_3__["default"].highlight(content, {
-    language: language
-  });
-  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("pre", {
-    children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("code", {
-      className: `language-${language.toLowerCase()}`,
-      dangerouslySetInnerHTML: {
-        __html: highlightedContent.value
-      }
-    })
-  });
-}
 function GistPreview({
   gistId,
   isValid
@@ -62363,7 +62407,7 @@ function GistPreview({
   });
   if (!gist) return null;
   return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [gist.files && Object.values(gist.files).map(file => (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(CodeSnippetCard, {
+    children: [gist.files && Object.values(gist.files).map(file => (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_CodeSnippetCard__WEBPACK_IMPORTED_MODULE_3__["default"], {
       filename: file.filename,
       language: file.language,
       rawUrl: file.raw_url
