@@ -62296,11 +62296,11 @@ function CodeSnippetCard({
     style: {
       marginBottom: 16
     },
-    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h4", {
+    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("h4", {
       style: {
         margin: "0 0 8px"
       },
-      children: filename
+      children: [filename, " (", language, ")"]
     }), null !== content ? (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(CodeSnippetPreview, {
       language: language,
       content: content
@@ -62321,6 +62321,7 @@ function CodeSnippetPreview({
   });
   return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("pre", {
     children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("code", {
+      className: `language-${language.toLowerCase()}`,
       dangerouslySetInnerHTML: {
         __html: highlightedContent.value
       }

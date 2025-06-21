@@ -44,7 +44,9 @@ function CodeSnippetCard({
 
 	return (
 		<div style={{ marginBottom: 16 }}>
-			<h4 style={{ margin: "0 0 8px" }}>{filename}</h4>
+			<h4 style={{ margin: "0 0 8px" }}>
+				{filename} ({language})
+			</h4>
 			{null !== content ? (
 				<CodeSnippetPreview language={language} content={content} />
 			) : (
@@ -68,6 +70,7 @@ function CodeSnippetPreview({
 	return (
 		<pre>
 			<code
+				className={`language-${language.toLowerCase()}`}
 				dangerouslySetInnerHTML={{ __html: highlightedContent.value }}
 			></code>
 		</pre>
