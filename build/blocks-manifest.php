@@ -26,6 +26,10 @@ return array(
 			'gistId' => array(
 				'type' => 'string',
 				'default' => ''
+			),
+			'rawContent' => array(
+				'type' => 'string',
+				'default' => ''
 			)
 		)
 	)

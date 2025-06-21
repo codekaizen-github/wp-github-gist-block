@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { __ } from "@wordpress/i18n";
 import CodeSnippetCard from "./CodeSnippetCard";
 
 interface GistPreviewProps {
 	gistId: string;
 	isValid: boolean;
+	onLoad?: (content: string) => void;
 }
 
 interface GistApiResponse {
@@ -19,10 +20,22 @@ interface GistApiResponse {
 	};
 }
 
-export default function GistPreview({ gistId, isValid }: GistPreviewProps) {
+export default function GistPreview({
+	gistId,
+	isValid,
+	onLoad,
+}: GistPreviewProps) {
 	const [gist, setGist] = useState<GistApiResponse | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const ref = useRef<HTMLDivElement>(null);
+
+	function handleOnLoad() {
+		if (ref.current && onLoad) {
+			const content = ref.current.innerHTML;
+			onLoad(content);
+		}
+	}
 
 	useEffect(() => {
 		if (!isValid || !gistId) {
@@ -54,18 +67,10 @@ export default function GistPreview({ gistId, isValid }: GistPreviewProps) {
 
 	return (
 		<>
-			{gist.files &&
-				Object.values(gist.files).map((file) => (
-					<CodeSnippetCard
-						key={file.filename}
-						filename={file.filename}
-						language={file.language}
-						rawUrl={file.raw_url}
-					/>
-				))}
 			<div
 				style={{
 					marginTop: 16,
+					marginBottom: 16,
 					background: "#f6f7f7",
 					border: "1px solid #e2e4e7",
 					borderRadius: 8,
@@ -111,6 +116,18 @@ export default function GistPreview({ gistId, isValid }: GistPreviewProps) {
 						</ul>
 					</div>
 				)}
+			</div>
+			<div ref={ref}>
+				{gist.files &&
+					Object.values(gist.files).map((file) => (
+						<CodeSnippetCard
+							key={file.filename}
+							filename={file.filename}
+							language={file.language}
+							rawUrl={file.raw_url}
+							onLoad={handleOnLoad}
+						/>
+					))}
 			</div>
 		</>
 	);

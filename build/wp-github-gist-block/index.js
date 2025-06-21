@@ -62182,7 +62182,8 @@ __webpack_require__.r(__webpack_exports__);
 function CodeSnippetCard({
   filename,
   language = "plaintext",
-  rawUrl
+  rawUrl,
+  onLoad
 }) {
   const [content, setContent] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
@@ -62202,7 +62203,12 @@ function CodeSnippetCard({
       children: filename
     }), null !== content ? (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_CodeSnippetPreview__WEBPACK_IMPORTED_MODULE_3__["default"], {
       language: language,
-      content: content
+      content: content,
+      onLoad: () => {
+        if (onLoad) {
+          onLoad();
+        }
+      }
     }) : (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
       style: {
         color: "#999"
@@ -62228,14 +62234,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var highlight_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! highlight.js */ "./node_modules/highlight.js/es/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 function CodeSnippetPreview({
   language = "plaintext",
-  content
+  content,
+  onLoad
 }) {
   const highlightedContent = highlight_js__WEBPACK_IMPORTED_MODULE_1__["default"].highlight(content, {
     language: language
+  });
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (onLoad) {
+      onLoad();
+    }
   });
   return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("pre", {
     children: (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("code", {
@@ -62374,12 +62389,20 @@ __webpack_require__.r(__webpack_exports__);
 
 function GistPreview({
   gistId,
-  isValid
+  isValid,
+  onLoad
 }) {
   var _a;
   const [gist, setGist] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
   const [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [error, setError] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(null);
+  const ref = (0,react__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+  function handleOnLoad() {
+    if (ref.current && onLoad) {
+      const content = ref.current.innerHTML;
+      onLoad(content);
+    }
+  }
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (!isValid || !gistId) {
       setGist(null);
@@ -62407,13 +62430,10 @@ function GistPreview({
   });
   if (!gist) return null;
   return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    children: [gist.files && Object.values(gist.files).map(file => (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_CodeSnippetCard__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      filename: file.filename,
-      language: file.language,
-      rawUrl: file.raw_url
-    }, file.filename)), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+    children: [(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
       style: {
         marginTop: 16,
+        marginBottom: 16,
         background: "#f6f7f7",
         border: "1px solid #e2e4e7",
         borderRadius: 8,
@@ -62482,6 +62502,14 @@ function GistPreview({
           }, file.filename))
         })]
       })]
+    }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+      ref: ref,
+      children: gist.files && Object.values(gist.files).map(file => (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_CodeSnippetCard__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        filename: file.filename,
+        language: file.language,
+        rawUrl: file.raw_url,
+        onLoad: handleOnLoad
+      }, file.filename))
     })]
   });
 }
@@ -62495,7 +62523,7 @@ function GistPreview({
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/wp-github-gist-block","version":"0.1.1","title":"Wp Github Gist Block","category":"widgets","icon":"embed-generic","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"wp-github-gist-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","render":"file:./render.php","attributes":{"gistId":{"type":"string","default":""}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"create-block/wp-github-gist-block","version":"0.1.1","title":"Wp Github Gist Block","category":"widgets","icon":"embed-generic","description":"Example block scaffolded with Create Block tool.","example":{},"supports":{"html":false},"textdomain":"wp-github-gist-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js","render":"file:./render.php","attributes":{"gistId":{"type":"string","default":""},"rawContent":{"type":"string","default":""}}}');
 
 /***/ }),
 
@@ -62580,9 +62608,9 @@ function Edit({
       }), isModalOpen && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_GistIdModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
         initialValue: "",
         onSave: value => {
-          setAttributes({
+          setAttributes(Object.assign(Object.assign({}, attributes), {
             gistId: value
-          });
+          }));
           setIsModalOpen(false);
         },
         onCancel: () => setIsModalOpen(false)
@@ -62598,13 +62626,19 @@ function Edit({
       children: attributes.gistId ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Edit Gist ID", "wp-github-gist-block") : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Add Gist ID", "wp-github-gist-block")
     }), (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_GistPreview__WEBPACK_IMPORTED_MODULE_8__["default"], {
       gistId: (_b = attributes.gistId) !== null && _b !== void 0 ? _b : "",
-      isValid: isSavedGistIdValid
+      isValid: isSavedGistIdValid,
+      onLoad: content => {
+        // You can handle the loaded content if needed
+        setAttributes(Object.assign(Object.assign({}, attributes), {
+          rawContent: content
+        }));
+      }
     }), isModalOpen && (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_GistIdModal__WEBPACK_IMPORTED_MODULE_7__["default"], {
       initialValue: (_c = attributes.gistId) !== null && _c !== void 0 ? _c : "",
       onSave: value => {
-        setAttributes({
+        setAttributes(Object.assign(Object.assign({}, attributes), {
           gistId: value
-        });
+        }));
         setIsModalOpen(false);
       },
       onCancel: () => setIsModalOpen(false)
@@ -62674,7 +62708,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/wp-github-gist-block/style.scss");
 /* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/wp-github-gist-block/edit.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./src/wp-github-gist-block/block.json");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/wp-github-gist-block/save.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/wp-github-gist-block/block.json");
 /**
  * Registers a new block provided a unique name and an object defining its behavior.
  *
@@ -62694,23 +62729,65 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 /**
  * Every block starts by registering a new block type definition.
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_3__.name, {
-  title: _block_json__WEBPACK_IMPORTED_MODULE_3__.title,
-  description: _block_json__WEBPACK_IMPORTED_MODULE_3__.description,
-  category: _block_json__WEBPACK_IMPORTED_MODULE_3__.category,
-  icon: _block_json__WEBPACK_IMPORTED_MODULE_3__.icon,
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
+  title: _block_json__WEBPACK_IMPORTED_MODULE_4__.title,
+  description: _block_json__WEBPACK_IMPORTED_MODULE_4__.description,
+  category: _block_json__WEBPACK_IMPORTED_MODULE_4__.category,
+  icon: _block_json__WEBPACK_IMPORTED_MODULE_4__.icon,
   supports: {
-    html: _block_json__WEBPACK_IMPORTED_MODULE_3__.supports.html
+    html: _block_json__WEBPACK_IMPORTED_MODULE_4__.supports.html
   },
-  attributes: _block_json__WEBPACK_IMPORTED_MODULE_3__.attributes,
-  edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"]
-  // save: save,
+  attributes: _block_json__WEBPACK_IMPORTED_MODULE_4__.attributes,
+  edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
+  save: _save__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
+
+/***/ }),
+
+/***/ "./src/wp-github-gist-block/save.js":
+/*!******************************************!*\
+  !*** ./src/wp-github-gist-block/save.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Save)
+/* harmony export */ });
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+
+/**
+ * React hook that is used to mark the block wrapper element.
+ * It provides all the necessary props like the class name.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
+ */
+
+/**
+ * The save function defines the way in which the different attributes should
+ * be combined into the final markup, which is then serialized by the block
+ * editor into `post_content`.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#save
+ *
+ * @return {Element} Element to render.
+ *
+ */
+function Save({
+  attributes
+}) {
+  return (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("p", Object.assign({}, _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save()));
+}
 
 /***/ }),
 

@@ -62,7 +62,7 @@ export default function Edit({
 					<GistIdModal
 						initialValue={""}
 						onSave={(value) => {
-							setAttributes({ gistId: value });
+							setAttributes({ ...attributes, gistId: value });
 							setIsModalOpen(false);
 						}}
 						onCancel={() => setIsModalOpen(false)}
@@ -87,12 +87,19 @@ export default function Edit({
 			<GistPreview
 				gistId={attributes.gistId ?? ""}
 				isValid={isSavedGistIdValid}
+				onLoad={(content) => {
+					// You can handle the loaded content if needed
+					setAttributes({
+						...attributes,
+						rawContent: content,
+					});
+				}}
 			/>
 			{isModalOpen && (
 				<GistIdModal
 					initialValue={attributes.gistId ?? ""}
 					onSave={(value) => {
-						setAttributes({ gistId: value });
+						setAttributes({ ...attributes, gistId: value });
 						setIsModalOpen(false);
 					}}
 					onCancel={() => setIsModalOpen(false)}

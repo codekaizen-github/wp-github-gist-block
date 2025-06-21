@@ -5,6 +5,9 @@
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { useBlockProps } from "@wordpress/block-editor";
+import { BlockSaveProps } from "@wordpress/blocks";
+import { RawHTML } from "@wordpress/element";
+import { CustomBlockEditProps } from "./interfaces";
 
 /**
  * The save function defines the way in which the different attributes should
@@ -14,11 +17,15 @@ import { useBlockProps } from "@wordpress/block-editor";
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#save
  *
  * @return {Element} Element to render.
+ *
  */
-export default function save() {
+
+export default function Save({
+	attributes,
+}: BlockSaveProps<CustomBlockEditProps>) {
 	return (
 		<p {...useBlockProps.save()}>
-			{"Wp Github Gist Block – hello from the saved content!"}
+			{/* <RawHTML children={attributes.rawContent} /> */}
 		</p>
 	);
 }

@@ -21,6 +21,10 @@
 		"gistId": {
 			"type": "string",
 			"default": ""
+		},
+		"rawContent": {
+			"type": "string",
+			"default": ""
 		}
 	}
 }

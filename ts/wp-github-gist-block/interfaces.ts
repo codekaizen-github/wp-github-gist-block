@@ -1,5 +1,6 @@
 export interface CustomBlockAttributes {
 	gistId: { type: "string"; default: string };
+	rawContent: { type: "string"; default: string };
 }
 
 type CustomDerivedAttributes<T> = {
