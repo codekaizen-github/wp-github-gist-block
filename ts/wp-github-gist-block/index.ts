@@ -18,7 +18,6 @@ import "./style.scss";
  * Internal dependencies
  */
 import Edit from "./edit";
-import Save from "./save";
 import metadata from "./block.json";
 import { IconType } from "@wordpress/components";
 import { CustomBlockAttributes } from "./interfaces";
@@ -37,5 +36,4 @@ registerBlockType(metadata.name, {
 	},
 	attributes: metadata.attributes as CustomBlockAttributes,
 	edit: Edit,
-	save: Save,
 });
