@@ -1,5 +1,10 @@
 {
-    "require": {
-        "scrivo/highlight.php": "^9.18"
-    }
+	"scripts": {
+		"post-install-cmd": [
+			"npm ci; npm run build"
+		]
+	},
+	"require": {
+		"scrivo/highlight.php": "^9.18"
+	}
 }

@@ -1,4 +1,5 @@
 # Built files
+build
 /src/wp-github-gist-block/*.js
 /src/wp-github-gist-block/*.json
 # Logs
@@ -8,6 +9,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+test.sh
 # Coverage directory used by tools like istanbul
 coverage
 
@@ -16,6 +18,9 @@ build/Release
 
 # Dependency directories
 node_modules/
+
+# Composer dependencies
+vendor
 
 # Optional npm cache directory
 .npm

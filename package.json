@@ -8,7 +8,8 @@
 	"scripts": {
 		"dev": "nodemon --watch './ts/**/*' -e ts,tsx,json --exec 'npm run type; npm run start;'",
 		"type": "tsc",
-		"build": "wp-scripts build --blocks-manifest",
+		"build-block": "wp-scripts build --blocks-manifest",
+		"build": "npm run type; npm run build-block",
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
