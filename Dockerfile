@@ -16,3 +16,12 @@ WORKDIR /app
 
 # Run this command but with fnm loaded into context
 RUN bash -c "source \"$HOME/.bashrc\" && fnm use $NODE_VERSION && composer install --no-dev --no-interaction --optimize-autoloader"
+
+FROM build AS compress
+
+RUN tar -czf /app.tar.gz -C /app .
+
+FROM alpine:latest AS archive
+
+COPY --from=compress /app.tar.gz /app.tar.gz
+

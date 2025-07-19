@@ -57,7 +57,7 @@ pipeline {
                     }
                     axis {
                         name 'DOCKER_STAGE'
-                        values "build" // Add more stages if needed
+                        values 'build', 'compress', 'archive' // Add more stages if needed
                     }
                 }
                 agent { label "docker && ${ARCH}" }
@@ -84,7 +84,7 @@ pipeline {
                 axes {
                     axis {
                         name 'DOCKER_STAGE'
-                        values "build" // Add more stages if needed
+                        values "build", "compress", "archive" // Add more stages if needed
                     }
                 }
                 agent { label 'docker' }
@@ -120,5 +120,36 @@ pipeline {
                 }
             }
         }
+		stage('Extract, Compress, and Push Contents to GHCR') {
+			agent any
+			steps {
+				script {
+					withCredentials([string(credentialsId: GHCR_CREDENTIALS_ID, variable: 'GHCR_PAT')]) {
+						sh '''
+						echo "${GHCR_PAT}" | docker login ${GHCR_REGISTRY} -u "${GHCR_USER}" --password-stdin
+						# Extract contents from the image
+						container_id=$(docker create ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive)
+						# Copy the tar file to the host
+						docker cp ${container_id}:/app.tar.gz .
+						# Use oras to push the tar file to GHCR
+						docker run --rm \
+							-it \
+							-v $(pwd):/workspace \
+							oras/oras:latest \
+							push \
+							${GHCR_REGISTRY}/${GHCR_REPOSITORY}:package-${DYNAMIC_TAG_NAME} \
+							--username ${GHCR_USER} \
+							--password ${GHCR_PAT}  \
+							--manifest-config /workspace/app.tar.gz:application/vnd.oci.image.manifest.v1+json \
+							--artifact-type application/vnd.oci.image.layer.v1.tar+gzip \
+							/workspace/app.tar.gz
+						# Clean up
+						docker rm -v ${container_id} || true
+						rm -f app.tar.gz
+						'''
+					}
+				}
+			}
+		}
     }
 }
