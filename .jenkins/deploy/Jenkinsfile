@@ -140,7 +140,7 @@ pipeline {
 							--username ${GHCR_USER} \
 							--password ${GHCR_PAT}  \
 							--artifact-type application/vnd.oci.image.layer.v1.tar+gzip \
-							/workspace/app.tar.gz
+							./app.tar.gz
 						# Clean up
 						docker rm -v ${container_id} || true
 						rm -f app.tar.gz
