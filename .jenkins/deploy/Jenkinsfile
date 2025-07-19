@@ -57,7 +57,7 @@ pipeline {
                     }
                     axis {
                         name 'DOCKER_STAGE'
-                        values 'build', 'compress', 'archive' // Add more stages if needed
+                        values 'archive' // Add more stages if needed
                     }
                 }
                 agent { label "docker && ${ARCH}" }
@@ -84,7 +84,7 @@ pipeline {
                 axes {
                     axis {
                         name 'DOCKER_STAGE'
-                        values "build", "compress", "archive" // Add more stages if needed
+                        values 'archive' // Add more stages if needed
                     }
                 }
                 agent { label 'docker' }
@@ -133,7 +133,6 @@ pipeline {
 						docker cp ${container_id}:/app.tar.gz .
 						# Use oras to push the tar file to GHCR
 						docker run --rm \
-							-it \
 							-v $(pwd):/workspace \
 							oras/oras:latest \
 							push \
