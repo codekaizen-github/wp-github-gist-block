@@ -134,7 +134,7 @@ pipeline {
 						# Use oras to push the tar file to GHCR
 						docker run --rm \
 							-v $(pwd):/workspace \
-							oras/oras:latest \
+							ghcr.io/oras-project/oras:main \
 							push \
 							${GHCR_REGISTRY}/${GHCR_REPOSITORY}:package-${DYNAMIC_TAG_NAME} \
 							--username ${GHCR_USER} \
