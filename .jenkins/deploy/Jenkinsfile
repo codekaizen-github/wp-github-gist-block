@@ -139,7 +139,6 @@ pipeline {
 							${GHCR_REGISTRY}/${GHCR_REPOSITORY}:package-${DYNAMIC_TAG_NAME} \
 							--username ${GHCR_USER} \
 							--password ${GHCR_PAT}  \
-							--manifest-config /workspace/app.tar.gz:application/vnd.oci.image.manifest.v1+json \
 							--artifact-type application/vnd.oci.image.layer.v1.tar+gzip \
 							/workspace/app.tar.gz
 						# Clean up
