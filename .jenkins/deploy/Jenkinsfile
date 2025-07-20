@@ -48,36 +48,47 @@ pipeline {
                 }
             }
         }
-		stage('Build, Extract, Compress, and Push Contents to GHCR') {
-			agent { label 'docker' }
-			steps {
-				script {
-					withCredentials([string(credentialsId: GHCR_CREDENTIALS_ID, variable: 'GHCR_PAT')]) {
-						sh '''
-						echo "${GHCR_PAT}" | docker login ${GHCR_REGISTRY} -u "${GHCR_USER}" --password-stdin
-						docker build --target archive -t ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive .
-						docker image inspect ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive
-						# Extract contents from the image
-						container_id=$(docker create ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive)
-						# Copy the zip file to the host
-						docker cp ${container_id}:/plugin.zip .
-						# Use oras to push the zip file to GHCR
-						docker run --rm \
-							--pull always \
-							-v "$(pwd)/plugin.zip":/plugin.zip \
-							-e PLUGIN_SLUG="${GITHUB_REPOSITORY_NAME}" \
-							-e PLUGIN_ZIP_PATH="/plugin.zip" \
-							-e REGISTRY_USERNAME="${GHCR_USER}" \
-							-e REGISTRY_PASSWORD="${GHCR_PAT}" \
-							-e IMAGE_NAME="${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}" \
-							ghcr.io/codekaizen-github/wordpress-plugin-registry-oras-plugin-deploy:v2-base
-						# Clean up
-						docker rm -v ${container_id} || true
-						rm -f plugin.zip
-						'''
-					}
-				}
-			}
-		}
+        stage('Build and Extract Archive') {
+            agent { label 'docker' }
+            steps {
+                script {
+                    withCredentials([string(credentialsId: GHCR_CREDENTIALS_ID, variable: 'GHCR_PAT')]) {
+                        sh '''
+                        echo "${GHCR_PAT}" | docker login ${GHCR_REGISTRY} -u "${GHCR_USER}" --password-stdin
+                        docker build --target archive -t ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive .
+                        docker image inspect ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive
+                        container_id=$(docker create ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive)
+                        docker cp ${container_id}:/plugin.zip .
+                        docker rm -v ${container_id} || true
+                        '''
+                    }
+                    // Stash the plugin.zip for the next stage
+                    stash includes: 'plugin.zip', name: 'plugin-zip'
+                    sh 'rm -f plugin.zip'
+                }
+            }
+        }
+        stage('Push Archive with ORAS') {
+            agent { label 'docker' }
+            steps {
+                unstash 'plugin-zip'
+                script {
+                    withCredentials([string(credentialsId: GHCR_CREDENTIALS_ID, variable: 'GHCR_PAT')]) {
+                        sh '''
+                        docker run --rm \
+                            --pull always \
+                            -v "$(pwd)/plugin.zip":/plugin.zip \
+                            -e PLUGIN_SLUG="${GITHUB_REPOSITORY_NAME}" \
+                            -e PLUGIN_ZIP_PATH="/plugin.zip" \
+                            -e REGISTRY_USERNAME="${GHCR_USER}" \
+                            -e REGISTRY_PASSWORD="${GHCR_PAT}" \
+                            -e IMAGE_NAME="${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}" \
+                            ghcr.io/codekaizen-github/wordpress-plugin-registry-oras-plugin-deploy:v2-base
+                        rm -f plugin.zip
+                        '''
+                    }
+                }
+            }
+        }
     }
 }
