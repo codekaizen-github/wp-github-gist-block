@@ -48,7 +48,7 @@ pipeline {
                 }
             }
         }
-        stage('Build and Extract Archive') {
+        stage('Build, Extract, and Push Archive') {
             agent { label 'docker' }
             steps {
                 script {
@@ -60,21 +60,6 @@ pipeline {
                         container_id=$(docker create ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive)
                         docker cp ${container_id}:/plugin.zip .
                         docker rm -v ${container_id} || true
-                        '''
-                    }
-                    // Stash the plugin.zip for the next stage
-                    stash includes: 'plugin.zip', name: 'plugin-zip'
-                    sh 'rm -f plugin.zip'
-                }
-            }
-        }
-        stage('Push Archive with ORAS') {
-            agent { label 'docker' }
-            steps {
-                unstash 'plugin-zip'
-                script {
-                    withCredentials([string(credentialsId: GHCR_CREDENTIALS_ID, variable: 'GHCR_PAT')]) {
-                        sh '''
                         docker run --rm \
                             --pull always \
                             -v "$(pwd)/plugin.zip":/plugin.zip \
