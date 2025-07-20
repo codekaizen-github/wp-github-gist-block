@@ -48,102 +48,31 @@ pipeline {
                 }
             }
         }
-        stage('Build and Push Images') {
-            matrix {
-                axes {
-                    axis {
-                        name 'ARCH'
-                        values 'amd64', 'arm64'
-                    }
-                    axis {
-                        name 'DOCKER_STAGE'
-                        values 'archive' // Add more stages if needed
-                    }
-                }
-                agent { label "docker && ${ARCH}" }
-                stages {
-                    stage('Build and Push') {
-                        steps {
-                            script {
-                                withCredentials([string(credentialsId: GHCR_CREDENTIALS_ID, variable: 'GHCR_PAT')]) {
-                                    sh '''
-                                    echo "${GHCR_PAT}" | docker login "${GHCR_REGISTRY}" -u "${GHCR_USER}" --password-stdin
-                                    docker build --label "org.opencontainers.image.source=${LABEL_ORG_OPENCONTAINERS_IMAGE_SOURCE}" --target ${DOCKER_STAGE} -t ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-${DOCKER_STAGE}-${ARCH} .
-                                    docker image inspect ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-${DOCKER_STAGE}-${ARCH}
-                                    docker push ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-${DOCKER_STAGE}-${ARCH}
-                                    '''
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        stage('Create and Push Manifest') {
-            matrix {
-                axes {
-                    axis {
-                        name 'DOCKER_STAGE'
-                        values 'archive' // Add more stages if needed
-                    }
-                }
-                agent { label 'docker' }
-                stages {
-                    stage('Push Manifest') {
-                        steps {
-                            script {
-                                withCredentials([string(credentialsId: GHCR_CREDENTIALS_ID, variable: 'GHCR_PAT')]) {
-                                    sh '''
-                                    echo "${GHCR_PAT}" | docker login ${GHCR_REGISTRY} -u "${GHCR_USER}" --password-stdin
-                                    ARCHS="amd64 arm64"
-                                    manifest_tag="${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-${DOCKER_STAGE}"
-                                    # Remove manifest if exists
-                                    docker manifest rm $manifest_tag || true
-                                    # Build manifest create command
-                                    manifest_create_cmd="docker manifest create $manifest_tag"
-                                    for arch in $ARCHS; do
-                                      manifest_create_cmd="$manifest_create_cmd ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-${DOCKER_STAGE}-$arch"
-                                    done
-                                    manifest_create_cmd="$manifest_create_cmd --amend"
-                                    eval $manifest_create_cmd
-                                    # Annotate for each arch
-                                    for arch in $ARCHS; do
-                                      docker manifest annotate $manifest_tag ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-${DOCKER_STAGE}-$arch --os linux --arch $arch
-                                    done
-                                    docker manifest inspect $manifest_tag
-                                    docker manifest push $manifest_tag --purge
-                                    '''
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-		stage('Extract, Compress, and Push Contents to GHCR') {
-			agent any
+		stage('Build, Extract, Compress, and Push Contents to GHCR') {
+			agent { label 'docker' }
 			steps {
 				script {
 					withCredentials([string(credentialsId: GHCR_CREDENTIALS_ID, variable: 'GHCR_PAT')]) {
 						sh '''
 						echo "${GHCR_PAT}" | docker login ${GHCR_REGISTRY} -u "${GHCR_USER}" --password-stdin
+						docker build --label "org.opencontainers.image.source=${LABEL_ORG_OPENCONTAINERS_IMAGE_SOURCE}" --target ${DOCKER_STAGE} -t ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive .
+						docker image inspect ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive
 						# Extract contents from the image
 						container_id=$(docker create ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive)
-						# Copy the tar file to the host
-						docker cp ${container_id}:/app.tar.gz .
-						# Use oras to push the tar file to GHCR
+						# Copy the zip file to the host
+						docker cp ${container_id}:/plugin.zip .
+						# Use oras to push the zip file to GHCR
 						docker run --rm \
 							-v $(pwd):/workspace \
-							ghcr.io/oras-project/oras:main \
-							push \
-							${GHCR_REGISTRY}/${GHCR_REPOSITORY}:package-${DYNAMIC_TAG_NAME} \
-							--username ${GHCR_USER} \
-							--password ${GHCR_PAT}  \
-							--artifact-type application/vnd.oci.image.layer.v1.tar+gzip \
-							./app.tar.gz
+							-e PLUGIN_SLUG="${GITHUB_REPOSITORY_NAME}" \
+							-e PLUGIN_ZIP_PATH="/workspace/plugin.zip" \
+							-e REGISTRY_USERNAME="${GHCR_USER}" \
+							-e REGISTRY_PASSWORD="${GHCR_PAT}" \
+							-e IMAGE_NAME="${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}" \
+							ghcr.io/codekaizen-github/wordpress-plugin-registry-oras-plugin-deploy:v2-base
 						# Clean up
 						docker rm -v ${container_id} || true
-						rm -f app.tar.gz
+						rm -f plugin.zip
 						'''
 					}
 				}
