@@ -12,6 +12,7 @@ yarn-error.log*
 test.sh
 # Coverage directory used by tools like istanbul
 coverage
+test
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 build/Release

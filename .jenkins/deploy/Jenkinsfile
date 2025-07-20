@@ -64,9 +64,9 @@ pipeline {
 						# Use oras to push the zip file to GHCR
 						docker run --rm \
 							--pull always \
-							-v $(pwd):/workspace \
+							-v "$(pwd)/plugin.zip":/plugin.zip \
 							-e PLUGIN_SLUG="${GITHUB_REPOSITORY_NAME}" \
-							-e PLUGIN_ZIP_PATH="/workspace/plugin.zip" \
+							-e PLUGIN_ZIP_PATH="/plugin.zip" \
 							-e REGISTRY_USERNAME="${GHCR_USER}" \
 							-e REGISTRY_PASSWORD="${GHCR_PAT}" \
 							-e IMAGE_NAME="${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}" \
