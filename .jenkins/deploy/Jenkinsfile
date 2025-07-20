@@ -63,6 +63,7 @@ pipeline {
 						docker cp ${container_id}:/plugin.zip .
 						# Use oras to push the zip file to GHCR
 						docker run --rm \
+							--pull always \
 							-v $(pwd):/workspace \
 							-e PLUGIN_SLUG="${GITHUB_REPOSITORY_NAME}" \
 							-e PLUGIN_ZIP_PATH="/workspace/plugin.zip" \
