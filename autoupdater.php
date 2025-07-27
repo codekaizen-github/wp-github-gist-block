@@ -24,17 +24,21 @@ class Autoupdater
 	public $slug;
 	/**
 	 * Initialize a new instance of the WordPress Auto-Update class
-	 * @param string $current_version
+	 * @param string $plugin_file
 	 * @param string $update_path
 	 * @param string $plugin_slug
 	 */
-	function __construct($current_version, $update_path, $plugin_slug)
+	function __construct($plugin_file)
 	{
+		if (! function_exists('get_plugin_data')) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		$plugin_data = get_plugin_data($plugin_file);
 		// Set the class public variables
-		$this->current_version = $current_version;
-		$this->update_path = $update_path;
-		$this->plugin_slug = $plugin_slug;
-		list($t1, $t2) = explode('/', $plugin_slug);
+		$this->current_version = isset($plugin_data['Version']) ? $plugin_data['Version'] : '1.0';
+		$this->update_path = isset($plugin_data['UpdateURI']) ? $plugin_data['UpdateURI'] : '';
+		$this->plugin_slug = plugin_basename(__FILE__);
+		list($t1, $t2) = explode('/', $this->plugin_slug);
 		$this->slug = str_replace('.php', '', $t2);
 		// define the alternative API for updating checking
 		add_filter('pre_set_site_transient_update_plugins', array(&$this, 'check_update'));

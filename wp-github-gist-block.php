@@ -67,12 +67,5 @@ add_action('init', 'create_block_wp_github_gist_block_block_init');
 
 add_action('init', function () {
 	require_once('autoupdater.php');
-	if (! function_exists('get_plugin_data')) {
-		require_once ABSPATH . 'wp-admin/includes/plugin.php';
-	}
-	$plugin_data = get_plugin_data(__FILE__);
-	$wptuts_plugin_current_version = isset($plugin_data['Version']) ? $plugin_data['Version'] : '1.0';
-	$wptuts_plugin_remote_path = isset($plugin_data['UpdateURI']) ? $plugin_data['UpdateURI'] : '';
-	$wptuts_plugin_slug = plugin_basename(__FILE__);
-	new Autoupdater($wptuts_plugin_current_version, $wptuts_plugin_remote_path, $wptuts_plugin_slug);
+	new Autoupdater(__FILE__);
 });
