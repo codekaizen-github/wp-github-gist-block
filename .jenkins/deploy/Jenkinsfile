@@ -68,7 +68,7 @@ pipeline {
                             -e REGISTRY_USERNAME="${GHCR_USER}" \
                             -e REGISTRY_PASSWORD="${GHCR_PAT}" \
                             -e IMAGE_NAME="${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}" \
-                            ghcr.io/codekaizen-github/wordpress-plugin-registry-oras-plugin-deploy:v2-base
+                            ghcr.io/codekaizen-github/wp-plugin-deploy-oras:v3
                         rm -f plugin.zip
                         '''
                     }
