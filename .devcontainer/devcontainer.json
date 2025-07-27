@@ -25,5 +25,5 @@
 			"upgradePackages": true
 		}
 	},
-	"postCreateCommand": "sudo chown -R www-data:www-data /var/www/html/wp-content/plugins && sudo chmod -R 755 /var/www/html/wp-content/plugins"
+	"postCreateCommand": "git config --global --add safe.directory /var/www/html/wp-content/plugins/wp-github-gist-block"
 }
