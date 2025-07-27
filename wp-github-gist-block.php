@@ -15,6 +15,11 @@
  * @package CreateBlock
  */
 
+// Add this code temporarily to your theme's functions.php or create a simple testing plugin
+add_action('admin_init', function () {
+	delete_site_transient('update_plugins');
+});
+
 if (! defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }

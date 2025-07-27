@@ -37,7 +37,7 @@ class Autoupdater
 		// Set the class public variables
 		$this->current_version = isset($plugin_data['Version']) ? $plugin_data['Version'] : '1.0';
 		$this->update_path = isset($plugin_data['UpdateURI']) ? $plugin_data['UpdateURI'] : '';
-		$this->plugin_slug = plugin_basename(__FILE__);
+		$this->plugin_slug = plugin_basename($plugin_file);
 		list($t1, $t2) = explode('/', $this->plugin_slug);
 		$this->slug = str_replace('.php', '', $t2);
 		// define the alternative API for updating checking
@@ -63,7 +63,7 @@ class Autoupdater
 			$obj->slug = $this->slug;
 			$obj->new_version = $remote_version;
 			$obj->url = $this->update_path;
-			$obj->package = $this->update_path . '/download';
+			$obj->package = trailingslashit($this->update_path) . 'download';
 			$transient->response[$this->plugin_slug] = $obj;
 		}
 		return $transient;
@@ -95,18 +95,21 @@ class Autoupdater
 		if ($cached !== null) {
 			return $cached;
 		}
-		$request = wp_remote_get($this->update_path . '/manifest');
+		$request = wp_remote_get(trailingslashit($this->update_path) . 'manifest');
+
 		if (is_wp_error($request) || wp_remote_retrieve_response_code($request) !== 200) {
 			return false;
 		}
 		$body = wp_remote_retrieve_body($request);
 		$json = json_decode($body, true);
 		if (!is_array($json) || !isset($json['annotations']['org.codekaizen-github.wp-plugin-deploy-oras.wp-plugin-metadata'])) {
+			die('Invalid response from the update server.');
 			return false;
 		}
 		$meta_json = $json['annotations']['org.codekaizen-github.wp-plugin-deploy-oras.wp-plugin-metadata'];
 		$meta = json_decode($meta_json, true);
 		if (!is_array($meta)) {
+			die('Invalid metadata format from the update server.');
 			return false;
 		}
 		$cached = $meta;
