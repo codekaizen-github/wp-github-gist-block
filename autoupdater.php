@@ -1,3 +1,4 @@
+
 <?php
 class Autoupdater
 {
@@ -51,18 +52,16 @@ class Autoupdater
 		if (empty($transient->checked)) {
 			return $transient;
 		}
-		// Get the remote version
-		$remote_version = $this->getRemote_version();
-		// If a newer version is available, add the update
-		if (version_compare($this->current_version, $remote_version, '<')) {
+		$meta = $this->get_remote_metadata();
+		$remote_version = isset($meta['version']) ? $meta['version'] : false;
+		if ($remote_version && version_compare($this->current_version, $remote_version, '<')) {
 			$obj = new stdClass();
 			$obj->slug = $this->slug;
 			$obj->new_version = $remote_version;
 			$obj->url = $this->update_path;
-			$obj->package = $this->update_path;
+			$obj->package = $this->update_path . '/download';
 			$transient->response[$this->plugin_slug] = $obj;
 		}
-		var_dump($transient);
 		return $transient;
 	}
 	/**
@@ -76,45 +75,37 @@ class Autoupdater
 	public function check_info($false, $action, $arg)
 	{
 		if ($arg->slug === $this->slug) {
-			$information = $this->getRemote_information();
-			return $information;
+			$meta = $this->get_remote_metadata();
+			return $meta ? (object) $meta : false;
 		}
 		return false;
 	}
+
 	/**
-	 * Return the remote version
-	 * @return string $remote_version
+	 * Fetch and cache remote plugin metadata from the update_path endpoint.
+	 * @return array|false
 	 */
-	public function getRemote_version()
+	protected function get_remote_metadata()
 	{
-		$request = wp_remote_post($this->update_path, array('body' => array('action' => 'version')));
-		if (!is_wp_error($request) || wp_remote_retrieve_response_code($request) === 200) {
-			return $request['body'];
+		static $cached = null;
+		if ($cached !== null) {
+			return $cached;
 		}
-		return false;
-	}
-	/**
-	 * Get information about the remote version
-	 * @return bool|object
-	 */
-	public function getRemote_information()
-	{
-		$request = wp_remote_post($this->update_path, array('body' => array('action' => 'info')));
-		if (!is_wp_error($request) || wp_remote_retrieve_response_code($request) === 200) {
-			return unserialize($request['body']);
+		$request = wp_remote_get($this->update_path . '/manifest');
+		if (is_wp_error($request) || wp_remote_retrieve_response_code($request) !== 200) {
+			return false;
 		}
-		return false;
-	}
-	/**
-	 * Return the status of the plugin licensing
-	 * @return boolean $remote_license
-	 */
-	public function getRemote_license()
-	{
-		$request = wp_remote_post($this->update_path, array('body' => array('action' => 'license')));
-		if (!is_wp_error($request) || wp_remote_retrieve_response_code($request) === 200) {
-			return $request['body'];
+		$body = wp_remote_retrieve_body($request);
+		$json = json_decode($body, true);
+		if (!is_array($json) || !isset($json['annotations']['org.codekaizen-github.wp-plugin-deploy-oras.wp-plugin-metadata'])) {
+			return false;
 		}
-		return false;
+		$meta_json = $json['annotations']['org.codekaizen-github.wp-plugin-deploy-oras.wp-plugin-metadata'];
+		$meta = json_decode($meta_json, true);
+		if (!is_array($meta)) {
+			return false;
+		}
+		$cached = $meta;
+		return $meta;
 	}
 }
