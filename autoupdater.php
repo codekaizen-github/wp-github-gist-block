@@ -63,6 +63,7 @@ class Autoupdater
 			$obj->slug = $this->slug;
 			$obj->new_version = $remote_version;
 			$obj->url = $this->update_path;
+			$obj->plugin = $this->plugin_slug;
 			$obj->package = trailingslashit($this->update_path) . 'download';
 			$transient->response[$this->plugin_slug] = $obj;
 		}
