@@ -44,6 +44,7 @@ pipeline {
                     // When building the main branch, use the 'latest' tag
                     env.DYNAMIC_TAG_NAME = env.GIT_BRANCH == 'main' ? 'latest' : env.TAG_NAME
                     env.GHCR_REPOSITORY = "${env.GITHUB_REPOSITORY_OWNER}/${env.GITHUB_REPOSITORY_NAME}".toLowerCase()
+                    env.PLUGIN_SLUG = "${env.GITHUB_REPOSITORY_NAME}" // Use the repository name as the plugin slug
                     env.LABEL_ORG_OPENCONTAINERS_IMAGE_SOURCE = "https://github.com/${env.GITHUB_REPOSITORY_OWNER}/${env.GITHUB_REPOSITORY_NAME}"
                 }
             }
@@ -55,21 +56,20 @@ pipeline {
                     withCredentials([string(credentialsId: GHCR_CREDENTIALS_ID, variable: 'GHCR_PAT')]) {
                         sh '''
                         echo "${GHCR_PAT}" | docker login ${GHCR_REGISTRY} -u "${GHCR_USER}" --password-stdin
-                        docker build --target archive -t ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive .
+                        docker build --target archive --build-arg PLUGIN_SLUG=${PLUGIN_SLUG} -t ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive .
                         docker image inspect ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive
                         container_id=$(docker create ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive)
-                        docker cp ${container_id}:/plugin.zip .
+                        docker cp ${container_id}:/${PLUGIN_SLUG}.zip .
                         docker rm -v ${container_id} || true
                         docker run --rm \
                             --pull always \
-                            -v "$(pwd)/plugin.zip":/plugin.zip \
-                            -e PLUGIN_SLUG="${GITHUB_REPOSITORY_NAME}" \
-                            -e PLUGIN_ZIP_PATH="/plugin.zip" \
+                            -v "$(pwd)/${PLUGIN_SLUG}.zip":/${PLUGIN_SLUG}.zip \
+                            -e PLUGIN_ZIP_PATH="/${PLUGIN_SLUG}.zip" \
                             -e REGISTRY_USERNAME="${GHCR_USER}" \
                             -e REGISTRY_PASSWORD="${GHCR_PAT}" \
                             -e IMAGE_NAME="${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}" \
-                            ghcr.io/codekaizen-github/wp-plugin-deploy-oras:v3
-                        rm -f plugin.zip
+                            ghcr.io/codekaizen-github/wp-plugin-deploy-oras:v4
+                        rm -f ${PLUGIN_SLUG}.zip
                         '''
                     }
                 }
