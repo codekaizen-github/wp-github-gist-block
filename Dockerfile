@@ -21,12 +21,6 @@ RUN bash -c "source \"$HOME/.bashrc\" && fnm use $NODE_VERSION && composer insta
 FROM build AS compress
 ARG PLUGIN_SLUG
 
-# Create a directory with the plugin slug name
-RUN mkdir -p /${PLUGIN_SLUG}
-
-# Copy all plugin files to the named directory
-RUN cp -r /plugin/* /${PLUGIN_SLUG}/
-
 # Use zip instead and have the root be the repository root
 RUN apt-get update && apt-get install -y zip
 RUN cd / && zip -r /${PLUGIN_SLUG}.zip ${PLUGIN_SLUG}
