@@ -1,5 +1,6 @@
 
 <?php
+
 class Autoupdater
 {
 	/**
@@ -57,15 +58,27 @@ class Autoupdater
 			return $transient;
 		}
 		$meta = $this->get_remote_metadata();
-		$remote_version = isset($meta['version']) ? $meta['version'] : false;
-		if ($remote_version && version_compare($this->current_version, $remote_version, '<')) {
-			$obj = new stdClass();
-			$obj->slug = $this->slug;
-			$obj->new_version = $remote_version;
-			$obj->url = $this->update_path;
-			$obj->plugin = $this->plugin_slug;
-			$obj->package = trailingslashit($this->update_path) . 'download';
-			$transient->response[$this->plugin_slug] = $obj;
+		if (!is_array($meta)) {
+			return $transient;
+		}
+		$meta_object = (object) $meta;
+		if (!isset($meta_object->version)) {
+			return $transient;
+		}
+		if (version_compare($this->current_version, $meta_object->version, '<')) {
+			// $obj = new stdClass();
+			// $obj->slug = $this->slug;
+			// $obj->new_version = $remote_version;
+			// $obj->url = $this->update_path;
+			// $obj->plugin = $this->plugin_slug;
+			// $obj->package = trailingslashit($this->update_path) . 'download';
+			$meta_object->slug = $this->slug;
+			$meta_object->new_version = $meta_object->version;
+			$meta_object->url = $meta_object->update_uri;
+			$meta_object->plugin = $this->plugin_slug;
+			$meta_object->package = trailingslashit($meta_object->update_uri) . 'download';
+			// Add the plugin to the response
+			$transient->response[$this->plugin_slug] = $meta_object;
 		}
 		return $transient;
 	}

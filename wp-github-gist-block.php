@@ -15,10 +15,30 @@
  * @package CreateBlock
  */
 
-// Add this code temporarily to your theme's functions.php or create a simple testing plugin
 add_action('admin_init', function () {
-	delete_site_transient('update_plugins');
+	// Check if user is on the Plugins page AND 'test' param is present
+	if (
+		isset($_GET['test']) &&
+		$_GET['test'] == '1' &&
+		isset($_GET['page']) === false && // not a subpage
+		strpos($_SERVER['REQUEST_URI'], 'plugins.php') !== false &&
+		current_user_can('update_plugins')
+	) {
+		// Delete the cached plugin update data
+		delete_site_transient('update_plugins');
+
+		// Force recheck by calling the update API
+		if (function_exists('wp_update_plugins')) {
+			wp_update_plugins();
+		}
+
+		// Optional: admin notice
+		add_action('admin_notices', function () {
+			echo '<div class="notice notice-success is-dismissible"><p>Plugin updates rechecked.</p></div>';
+		});
+	}
 });
+
 
 if (! defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
