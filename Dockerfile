@@ -20,9 +20,14 @@ RUN bash -c "source \"$HOME/.bashrc\" && fnm use $NODE_VERSION && composer insta
 
 FROM build AS compress
 ARG PACKAGE_SLUG
-
 # Use zip instead and have the root be the repository root
 RUN apt-get update && apt-get install -y zip
+# Remove .git, node_modules, ts, and src
+RUN rm -rf /${PACKAGE_SLUG}/.git \
+	&& rm -rf /${PACKAGE_SLUG}/node_modules \
+	&& rm -rf /${PACKAGE_SLUG}/ts \
+	&& rm -rf /${PACKAGE_SLUG}/src
+# RUN npm ci --omit=dev
 RUN cd / && zip -r /${PACKAGE_SLUG}.zip ${PACKAGE_SLUG}
 
 FROM alpine:latest AS archive
