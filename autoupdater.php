@@ -113,7 +113,11 @@ class Autoupdater
 		if ($cached !== null) {
 			return $cached;
 		}
-		$request = wp_remote_get(trailingslashit($this->update_path) . 'manifest');
+		$plugin_data = $this->getPluginData();
+		if (!is_array($plugin_data) || empty($plugin_data) || empty($plugin_data['UpdateURI'])) {
+			return false;
+		}
+		$request = wp_remote_get(trailingslashit($plugin_data['UpdateURI']) . 'manifest');
 
 		if (is_wp_error($request) || wp_remote_retrieve_response_code($request) !== 200) {
 			return false;
