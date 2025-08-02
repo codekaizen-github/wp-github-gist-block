@@ -1,4 +1,3 @@
-
 <?php
 
 class Autoupdater
@@ -66,12 +65,6 @@ class Autoupdater
 			return $transient;
 		}
 		if (version_compare($this->current_version, $meta_object->version, '<')) {
-			// $obj = new stdClass();
-			// $obj->slug = $this->slug;
-			// $obj->new_version = $remote_version;
-			// $obj->url = $this->update_path;
-			// $obj->plugin = $this->plugin_slug;
-			// $obj->package = trailingslashit($this->update_path) . 'download';
 			$meta_object->slug = $this->slug;
 			$meta_object->new_version = $meta_object->version;
 			$meta_object->url = $meta_object->update_uri;
@@ -116,11 +109,11 @@ class Autoupdater
 		}
 		$body = wp_remote_retrieve_body($request);
 		$json = json_decode($body, true);
-		if (!is_array($json) || !isset($json['annotations']['org.codekaizen-github.wp-plugin-deploy-oras.wp-plugin-metadata'])) {
+		if (!is_array($json) || !isset($json['annotations']['org.codekaizen-github.wp-package-deploy-oras.wp-package-metadata'])) {
 			die('Invalid response from the update server.');
 			return false;
 		}
-		$meta_json = $json['annotations']['org.codekaizen-github.wp-plugin-deploy-oras.wp-plugin-metadata'];
+		$meta_json = $json['annotations']['org.codekaizen-github.wp-package-deploy-oras.wp-package-metadata'];
 		$meta = json_decode($meta_json, true);
 		if (!is_array($meta)) {
 			die('Invalid metadata format from the update server.');
