@@ -96,7 +96,7 @@ class Autoupdater
 	 */
 	public function check_info($false, $action, $arg)
 	{
-		if ($arg->slug === $this->slug) {
+		if ($arg->slug && $arg->slug === $this->slug) {
 			$meta = $this->get_remote_metadata();
 			return $meta ? (object) $meta : false;
 		}
@@ -121,13 +121,11 @@ class Autoupdater
 		$body = wp_remote_retrieve_body($request);
 		$json = json_decode($body, true);
 		if (!is_array($json) || !isset($json['annotations']['org.codekaizen-github.wp-package-deploy-oras.wp-package-metadata'])) {
-			die('Invalid response from the update server.');
 			return false;
 		}
 		$meta_json = $json['annotations']['org.codekaizen-github.wp-package-deploy-oras.wp-package-metadata'];
 		$meta = json_decode($meta_json, true);
 		if (!is_array($meta)) {
-			die('Invalid metadata format from the update server.');
 			return false;
 		}
 		$cached = $meta;
