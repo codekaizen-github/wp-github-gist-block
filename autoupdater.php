@@ -2,6 +2,7 @@
 
 class Autoupdater
 {
+	public $plugin_file;
 	/**
 	 * The plugin current version
 	 * @var string
@@ -30,13 +31,8 @@ class Autoupdater
 	 */
 	function __construct($plugin_file)
 	{
-		if (! function_exists('get_plugin_data')) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		}
-		$plugin_data = get_plugin_data($plugin_file);
+		$this->plugin_file = $plugin_file;
 		// Set the class public variables
-		$this->current_version = isset($plugin_data['Version']) ? $plugin_data['Version'] : '1.0';
-		$this->update_path = isset($plugin_data['UpdateURI']) ? $plugin_data['UpdateURI'] : '';
 		$this->plugin_slug = plugin_basename($plugin_file);
 		list($t1, $t2) = explode('/', $this->plugin_slug);
 		$this->slug = str_replace('.php', '', $t2);
@@ -44,6 +40,15 @@ class Autoupdater
 		add_filter('pre_set_site_transient_update_plugins', array(&$this, 'check_update'));
 		// Define the alternative response for information checking
 		add_filter('plugins_api', array(&$this, 'check_info'), 10, 3);
+	}
+
+	function getPluginData()
+	{
+		if (! function_exists('get_plugin_data')) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		$plugin_data = get_plugin_data($this->plugin_file);
+		return $plugin_data;
 	}
 	/**
 	 * Add our self-hosted autoupdate plugin to the filter transient
@@ -53,13 +58,6 @@ class Autoupdater
 	 */
 	public function check_update($transient)
 	{
-		// log stacktrace
-
-		error_log(print_r(debug_backtrace(), true));
-
-		// dump this properties
-		error_log(print_r($this, true));
-
 		if (empty($transient->checked)) {
 			return $transient;
 		}
@@ -71,7 +69,12 @@ class Autoupdater
 		if (!isset($meta_object->version)) {
 			return $transient;
 		}
-		if (version_compare($this->current_version, $meta_object->version, '<')) {
+		$plugin_data = $this->getPluginData();
+		if (!is_array($plugin_data) || empty($plugin_data)) {
+			return $transient;
+		}
+		$current_version = isset($plugin_data['Version']) ? $plugin_data['Version'] : '1.0';
+		if (version_compare($current_version, $meta_object->version, '<')) {
 			$meta_object->slug = $this->slug;
 			$meta_object->new_version = $meta_object->version;
 			$meta_object->url = $meta_object->update_uri;
@@ -80,6 +83,7 @@ class Autoupdater
 			// Add the plugin to the response
 			$transient->response[$this->plugin_slug] = $meta_object;
 		}
+		error_log('Transient: ' . print_r($transient, true));
 		return $transient;
 	}
 	/**
