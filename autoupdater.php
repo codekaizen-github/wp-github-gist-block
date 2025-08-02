@@ -53,6 +53,13 @@ class Autoupdater
 	 */
 	public function check_update($transient)
 	{
+		// log stacktrace
+
+		error_log(print_r(debug_backtrace(), true));
+
+		// dump this properties
+		error_log(print_r($this, true));
+
 		if (empty($transient->checked)) {
 			return $transient;
 		}
