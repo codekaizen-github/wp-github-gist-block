@@ -72,7 +72,7 @@ class WP_Github_Gist_Block_Assets
         }
 
         // Register the style for our block
-        $block_name = 'create-block/wp-github-gist-block';
+        $block_name = 'codekaizen/wp-github-gist-block';
 
         // Using wp_enqueue_block_style to register style specifically for this block
         // This function automatically handles loading styles only when the block is used

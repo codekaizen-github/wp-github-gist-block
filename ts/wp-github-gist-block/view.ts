@@ -21,5 +21,5 @@
  */
 
 /* eslint-disable no-console */
-console.log( 'Hello World! (from create-block-wp-github-gist-block block)' );
+console.log( 'Hello World! (from codekaizen-wp-github-gist-block block)' );
 /* eslint-enable no-console */
