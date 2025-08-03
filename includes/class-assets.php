@@ -21,8 +21,7 @@ class WP_Github_Gist_Block_Assets
      */
     public function __construct()
     {
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_styles'));
-        add_action('enqueue_block_editor_assets', array($this, 'enqueue_editor_styles'));
+        add_action('enqueue_block_assets', array($this, 'enqueue_styles'));
     }
 
     /**
@@ -89,12 +88,12 @@ class WP_Github_Gist_Block_Assets
     }
 
     /**
-     * Enqueue styles for the frontend
+     * Enqueue styles for both frontend and editor
      */
-    public function enqueue_frontend_styles()
+    public function enqueue_styles()
     {
-        // Only load if we have the block in the post
-        if (!$this->has_gist_block()) {
+        // For frontend, only load if we have the block in the post
+        if (!is_admin() && !$this->has_gist_block()) {
             return;
         }
 
@@ -102,22 +101,6 @@ class WP_Github_Gist_Block_Assets
         if ($style) {
             wp_enqueue_style(
                 $style['handle'],
-                $style['url'],
-                array(),
-                filemtime($style['path'])
-            );
-        }
-    }
-
-    /**
-     * Enqueue styles for the block editor
-     */
-    public function enqueue_editor_styles()
-    {
-        $style = $this->get_style_info();
-        if ($style) {
-            wp_enqueue_style(
-                $style['handle'] . '-editor',
                 $style['url'],
                 array(),
                 filemtime($style['path'])
