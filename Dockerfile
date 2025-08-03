@@ -18,15 +18,12 @@ WORKDIR /${PACKAGE_SLUG}
 # Run this command but with fnm loaded into context
 RUN bash -c "source \"$HOME/.bashrc\" && fnm use $NODE_VERSION && composer install --no-dev --no-interaction --optimize-autoloader"
 
-FROM build AS compress
+FROM alpine:latest AS compress
 ARG PACKAGE_SLUG
 # Use zip instead and have the root be the repository root
-RUN apt-get update && apt-get install -y zip
+RUN apk add --no-cache zip
 # Remove .git, node_modules, ts, and src
-RUN rm -rf /${PACKAGE_SLUG}/.git \
-	&& rm -rf /${PACKAGE_SLUG}/node_modules \
-	&& rm -rf /${PACKAGE_SLUG}/ts \
-	&& rm -rf /${PACKAGE_SLUG}/src
+COPY --from=build /${PACKAGE_SLUG} /${PACKAGE_SLUG} --exclude=.git --exclude=node_modules --exclude=ts --exclude=src
 # RUN npm ci --omit=dev
 RUN cd / && zip -r /${PACKAGE_SLUG}.zip ${PACKAGE_SLUG}
 
