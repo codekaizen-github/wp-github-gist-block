@@ -25,5 +25,5 @@
 			"upgradePackages": true
 		}
 	},
-	"postCreateCommand": "git config --global --add safe.directory /var/www/html/wp-content/plugins/wp-github-gist-block"
+	"postCreateCommand": "git config --global --add safe.directory /var/www/html/wp-content/plugins/wp-github-gist-block; cd /var/www/html/wp-content/plugins/wp-github-gist-block && composer install"
 }
