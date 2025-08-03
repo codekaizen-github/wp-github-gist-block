@@ -41,8 +41,10 @@ RUN apt-get update && apt-get install -y \
 	vim \
 	less \
 	sudo \
-	mariadb-client \
+	default-mysql-client \
 	&& rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 # Install WP CLI
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
