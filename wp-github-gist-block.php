@@ -43,6 +43,12 @@ add_action('admin_init', function () {
 if (! defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
+
+// Define plugin constants
+define('WP_GITHUB_GIST_BLOCK_PLUGIN_FILE', __FILE__);
+define('WP_GITHUB_GIST_BLOCK_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('WP_GITHUB_GIST_BLOCK_PLUGIN_URL', plugin_dir_url(__FILE__));
+
 // Require Composer autoloader if available
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 	require_once __DIR__ . '/vendor/autoload.php';
@@ -94,3 +100,15 @@ add_action('init', function () {
 	require_once('autoupdater.php');
 	new Autoupdater(__FILE__);
 });
+
+// Load required files
+require_once WP_GITHUB_GIST_BLOCK_PLUGIN_DIR . 'includes/class-admin-settings.php';
+require_once WP_GITHUB_GIST_BLOCK_PLUGIN_DIR . 'includes/class-assets.php';
+
+// Initialize classes
+function wp_github_gist_block_init_classes()
+{
+	new WP_Github_Gist_Block_Admin_Settings();
+	new WP_Github_Gist_Block_Assets();
+}
+add_action('plugins_loaded', 'wp_github_gist_block_init_classes');
