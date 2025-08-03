@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1.7-labs
 FROM php:8.2 AS build
 ARG PACKAGE_SLUG
 ARG NODE_VERSION=22
