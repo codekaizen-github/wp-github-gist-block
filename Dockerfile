@@ -10,10 +10,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Download and install fnm:
 RUN curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "$HOME/.fnm" \
-	&& cp "$HOME/.fnm/fnm" /usr/bin && fnm install $NODE_VERSION \
-	&& echo 'eval "$(fnm env --use-on-cd --shell bash)"' >> "$HOME/.bashrc"
+	&& cp "$HOME/.fnm/fnm" /usr/bin
 
 FROM dependencies AS build
+ARG NODE_VERSION=22
+
+RUN fnm install $NODE_VERSION \
+	&& echo 'eval "$(fnm env --use-on-cd --shell bash)"' >> "$HOME/.bashrc"
 
 COPY . /${PACKAGE_SLUG}
 WORKDIR /${PACKAGE_SLUG}
@@ -35,6 +38,9 @@ ARG PACKAGE_SLUG
 COPY --from=compress /${PACKAGE_SLUG}.zip /${PACKAGE_SLUG}.zip
 
 FROM dependencies AS dev
+ARG NODE_VERSION=22
+
+USER root
 
 RUN apt-get update && apt-get install -y \
 	git \
@@ -63,4 +69,6 @@ RUN chsh -s /bin/bash www-data \
 	&& sudo usermod -d /home/www-data www-data
 
 USER www-data
+
+RUN fnm install $NODE_VERSION && echo 'eval "$(fnm env --use-on-cd --shell bash)"' >> "$HOME/.bashrc"
 
