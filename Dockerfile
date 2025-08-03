@@ -41,6 +41,7 @@ RUN apt-get update && apt-get install -y \
 	vim \
 	less \
 	sudo \
+	mariadb-client \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Install WP CLI
@@ -53,7 +54,11 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 RUN chsh -s /bin/bash www-data \
 	&& mkdir -p /etc/sudoers.d \
 	&& echo "www-data ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/www-data \
-	&& chmod 0440 /etc/sudoers.d/www-data
+	&& chmod 0440 /etc/sudoers.d/www-data \
+	&& sudo mkdir -p /home/www-data \
+	&& sudo chown www-data:www-data /home/www-data \
+	&& sudo chmod 755 /home/www-data \
+	&& sudo usermod -d /home/www-data www-data
 
 USER www-data
 
