@@ -24,7 +24,7 @@ ARG PACKAGE_SLUG
 # Use zip instead and have the root be the repository root
 RUN apk add --no-cache zip
 # Remove .git, node_modules, ts, and src
-COPY --from=build /${PACKAGE_SLUG} /${PACKAGE_SLUG} --exclude=.git --exclude=node_modules --exclude=ts --exclude=src
+COPY --from=build --exclude=.git --exclude=node_modules --exclude=ts --exclude=src /${PACKAGE_SLUG} /${PACKAGE_SLUG}
 # RUN npm ci --omit=dev
 RUN cd / && zip -r /${PACKAGE_SLUG}.zip ${PACKAGE_SLUG}
 
