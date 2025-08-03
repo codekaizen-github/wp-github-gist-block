@@ -21,8 +21,8 @@ class WP_Github_Gist_Block_Assets
      */
     public function __construct()
     {
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
-        add_action('enqueue_block_editor_assets', array($this, 'enqueue_styles'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_frontend_styles'));
+        add_action('enqueue_block_editor_assets', array($this, 'enqueue_editor_styles'));
     }
 
     /**
@@ -32,11 +32,6 @@ class WP_Github_Gist_Block_Assets
      */
     private function has_gist_block()
     {
-        // Always load in the admin/editor
-        if (is_admin()) {
-            return true;
-        }
-
         // Check if we're on a singular page
         if (!is_singular()) {
             return false;
@@ -60,36 +55,73 @@ class WP_Github_Gist_Block_Assets
     }
 
     /**
-     * Enqueue styles
+     * Get the stylesheet URL and path for the selected highlight style
+     *
+     * @return array|false Style information or false if not available
      */
-    public function enqueue_styles()
+    private function get_style_info()
+    {
+        // Get settings
+        $settings = WP_Github_Gist_Block_Admin_Settings::get_settings();
+
+        // If highlight style is not set, return false
+        if (empty($settings['highlight_style'])) {
+            return false;
+        }
+
+        $style_path = 'vendor/scrivo/highlight.php/styles/' . $settings['highlight_style'];
+        $style_url = plugins_url($style_path, WP_GITHUB_GIST_BLOCK_PLUGIN_FILE);
+        $style_path_full = plugin_dir_path(WP_GITHUB_GIST_BLOCK_PLUGIN_FILE) . $style_path;
+
+        // If the file doesn't exist, return false
+        if (!file_exists($style_path_full)) {
+            return false;
+        }
+
+        // Generate a handle with a prefix and sanitized filename
+        $handle = 'wp-github-gist-block-' . sanitize_title($settings['highlight_style']);
+
+        return [
+            'handle' => $handle,
+            'url' => $style_url,
+            'path' => $style_path_full
+        ];
+    }
+
+    /**
+     * Enqueue styles for the frontend
+     */
+    public function enqueue_frontend_styles()
     {
         // Only load if we have the block in the post
         if (!$this->has_gist_block()) {
             return;
         }
 
-        // Get settings
-        $settings = WP_Github_Gist_Block_Admin_Settings::get_settings();
+        $style = $this->get_style_info();
+        if ($style) {
+            wp_enqueue_style(
+                $style['handle'],
+                $style['url'],
+                array(),
+                filemtime($style['path'])
+            );
+        }
+    }
 
-        // If highlight style is set, enqueue it
-        if (! empty($settings['highlight_style'])) {
-            $style_path = 'vendor/scrivo/highlight.php/styles/' . $settings['highlight_style'];
-            $style_url = plugins_url($style_path, WP_GITHUB_GIST_BLOCK_PLUGIN_FILE);
-            $style_path_full = plugin_dir_path(WP_GITHUB_GIST_BLOCK_PLUGIN_FILE) . $style_path;
-
-            // Check if file exists before enqueueing
-            if (file_exists($style_path_full)) {
-                // Generate a handle with a prefix and sanitized filename
-                $handle = 'wp-github-gist-block-' . sanitize_title($settings['highlight_style']);
-
-                wp_enqueue_style(
-                    $handle,
-                    $style_url,
-                    array(),
-                    filemtime($style_path_full)
-                );
-            }
+    /**
+     * Enqueue styles for the block editor
+     */
+    public function enqueue_editor_styles()
+    {
+        $style = $this->get_style_info();
+        if ($style) {
+            wp_enqueue_style(
+                $style['handle'] . '-editor',
+                $style['url'],
+                array(),
+                filemtime($style['path'])
+            );
         }
     }
 }
