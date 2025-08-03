@@ -1,7 +1,7 @@
 {
-	"name": "WordPress Development Environment",
+	"name": "WP GitHub Gist Block WordPress Development Environment",
 	"dockerComposeFile": "docker-compose.yml",
-	"service": "wordpress",
+	"service": "dev",
 	"workspaceFolder": "/var/www/html",
 	"forwardPorts": [
 		8080

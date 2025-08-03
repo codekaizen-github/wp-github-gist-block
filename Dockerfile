@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.7-labs
-FROM php:8.2 AS build
+FROM php:8.2 AS dependencies
 ARG PACKAGE_SLUG
 ARG NODE_VERSION=22
 
@@ -13,9 +13,10 @@ RUN curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "$HOME/
 	&& cp "$HOME/.fnm/fnm" /usr/bin && fnm install $NODE_VERSION \
 	&& echo 'eval "$(fnm env --use-on-cd --shell bash)"' >> "$HOME/.bashrc"
 
+FROM dependencies AS build
+
 COPY . /${PACKAGE_SLUG}
 WORKDIR /${PACKAGE_SLUG}
-
 # Run this command but with fnm loaded into context
 RUN bash -c "source \"$HOME/.bashrc\" && fnm use $NODE_VERSION && composer install --no-dev --no-interaction --optimize-autoloader"
 
@@ -32,4 +33,27 @@ FROM alpine:latest AS archive
 ARG PACKAGE_SLUG
 
 COPY --from=compress /${PACKAGE_SLUG}.zip /${PACKAGE_SLUG}.zip
+
+FROM dependencies AS dev
+
+RUN apt-get update && apt-get install -y \
+	git \
+	vim \
+	less \
+	sudo \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Install WP CLI
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+	&& php wp-cli.phar --info \
+	&& chmod +x wp-cli.phar \
+	&& mv wp-cli.phar /usr/local/bin/wp
+
+# Give www-data a log in shell and make a sudoer
+RUN chsh -s /bin/bash www-data \
+	&& mkdir -p /etc/sudoers.d \
+	&& echo "www-data ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/www-data \
+	&& chmod 0440 /etc/sudoers.d/www-data
+
+USER www-data
 

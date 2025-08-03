@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   wordpress:
     image: wordpress:latest
@@ -40,8 +38,11 @@ services:
     depends_on:
       - db
 
-  wp-cli:
-    image: wordpress:cli
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
     depends_on:
       - db
       - wordpress
