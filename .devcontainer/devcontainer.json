@@ -25,5 +25,5 @@
 			"upgradePackages": true
 		}
 	},
-	"postCreateCommand": "git config --global --add safe.directory /var/www/html/wp-content/plugins/wp-github-gist-block; cd /var/www/html/wp-content/plugins/wp-github-gist-block && composer install"
+	"postCreateCommand": "git config --global --add safe.directory /var/www/html/wp-content/plugins/wp-github-gist-block; wp core install --url=\"http://localhost:8080\" --title=\"WP GitHub Gist Block Test Site\" --admin_user=local --admin_password=local --admin_email=local@example.com; cd /var/www/html/wp-content/plugins/wp-github-gist-block && composer install"
 }
