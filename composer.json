@@ -1,4 +1,8 @@
 {
+	"name": "codekaizen/wp-github-gist-block",
+	"description": "WordPress plugin for embedding GitHub Gists as blocks",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
 	"scripts": {
 		"post-install-cmd": [
 			"npm ci; npm run build"
@@ -6,5 +10,10 @@
 	},
 	"require": {
 		"scrivo/highlight.php": "^9.18"
+	},
+	"autoload": {
+		"psr-4": {
+			"CodeKaizen\\WPGithubGistBlock\\": "includes/"
+		}
 	}
 }

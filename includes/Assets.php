@@ -3,8 +3,10 @@
 /**
  * Assets Class
  *
- * @package WpGithubGistBlock
+ * @package CodeKaizen\WPGithubGistBlock
  */
+
+namespace CodeKaizen\WPGithubGistBlock;
 
 // Exit if accessed directly.
 if (! defined('ABSPATH')) {
@@ -14,7 +16,7 @@ if (! defined('ABSPATH')) {
 /**
  * Assets Class
  */
-class WP_Github_Gist_Block_Assets
+class Assets
 {
     /**
      * Initialize the class
@@ -35,7 +37,7 @@ class WP_Github_Gist_Block_Assets
     private function get_style_info()
     {
         // Get settings
-        $settings = WP_Github_Gist_Block_Admin_Settings::get_settings();
+        $settings = AdminSettings::get_settings();
 
         // If highlight style is not set, return false
         if (empty($settings['highlight_style'])) {

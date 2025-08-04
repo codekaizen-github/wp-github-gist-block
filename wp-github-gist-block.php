@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Plugin Name:       Wp Github Gist Block
- * Description:       Example block scaffolded with Create Block tool.
+ * Plugin Name:       WP GitHub Gist Block
+ * Description:       Embed GitHub Gists with syntax highlighting in WordPress.
  * Version:           0.1.1
  * Requires at least: 6.7
  * Requires PHP:      7.4
- * Author:            The WordPress Contributors
+ * Author:            CodeKaizen
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       wp-github-gist-block
  * Update URI:        https://wp-plugin-registry.codekaizen.net/api/v1/ghcr.io/codekaizen-github/wp-github-gist-block/latest/
  *
- * @package CreateBlock
+ * @package CodeKaizen\WPGithubGistBlock
  */
 
 add_action('admin_init', function () {
@@ -101,14 +101,11 @@ add_action('init', function () {
 	new Autoupdater(__FILE__);
 });
 
-// Load required files
-require_once WP_GITHUB_GIST_BLOCK_PLUGIN_DIR . 'includes/class-admin-settings.php';
-require_once WP_GITHUB_GIST_BLOCK_PLUGIN_DIR . 'includes/class-assets.php';
-
-// Initialize classes
+// Initialize classes using namespaces
 function wp_github_gist_block_init_classes()
 {
-	new WP_Github_Gist_Block_Admin_Settings();
-	new WP_Github_Gist_Block_Assets();
+	// Using namespaced classes from autoloader
+	new \CodeKaizen\WPGithubGistBlock\AdminSettings();
+	new \CodeKaizen\WPGithubGistBlock\Assets();
 }
 add_action('plugins_loaded', 'wp_github_gist_block_init_classes');

@@ -3,8 +3,10 @@
 /**
  * Admin Settings Class
  *
- * @package WpGithubGistBlock
+ * @package CodeKaizen\WPGithubGistBlock
  */
+
+namespace CodeKaizen\WPGithubGistBlock;
 
 // Exit if accessed directly.
 if (! defined('ABSPATH')) {
@@ -14,7 +16,7 @@ if (! defined('ABSPATH')) {
 /**
  * Admin Settings Class
  */
-class WP_Github_Gist_Block_Admin_Settings
+class AdminSettings
 {
     /**
      * Option name for settings
