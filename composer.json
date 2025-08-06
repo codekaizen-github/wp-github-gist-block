@@ -11,7 +11,7 @@
 		],
 		"post-install-cmd": [
 			"@prefix-namespaces",
-			"npm run build"
+			"npm ci; npm run build"
 		],
 		"post-update-cmd": [
 			"@prefix-namespaces"
