@@ -17,7 +17,8 @@
 			"@prefix-namespaces"
 		],
 		"post-autoload-dump": [
-			"@php bin/strauss.phar include-autoloader"
+			"@php bin/strauss.phar include-autoloader",
+			"@php fix-strauss-autoloader.php"
 		]
 	},
 	"require": {
