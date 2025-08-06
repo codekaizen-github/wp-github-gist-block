@@ -31,9 +31,9 @@
 	"extra": {
 		"strauss": {
 			"target_directory": "vendor",
-			"namespace_prefix": "CodeKaizen\\WPGitHubGistBlock\\Dependencies\\",
-			"classmap_prefix": "CodeKaizen_WPGitHubGistBlock_Dependencies_",
-			"constant_prefix": "CKWPGHGBD_"
+			"namespace_prefix": "CodeKaizen\\WPGitHubGistBlock\\",
+			"classmap_prefix": "CodeKaizen_WPGitHubGistBlock_",
+			"constant_prefix": "CKWPGHGB_"
 		}
 	}
 }

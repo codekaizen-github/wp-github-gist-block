@@ -30,7 +30,7 @@ endif;
 ?>
 <?php
 // Instantiate the Highlighter.
-$hl = new \CodeKaizen\WPGitHubGistBlock\Dependencies\Highlight\Highlighter();
+$hl = new \CodeKaizen\WPGitHubGistBlock\Highlight\Highlighter();
 ?>
 <div class="wp-github-gist-block-list">
     <a href="<?php echo $data['html_url'] ?? ''; ?>"><?php echo $data['description'] ?? ''; ?></a>
