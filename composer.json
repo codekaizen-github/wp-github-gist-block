@@ -10,8 +10,7 @@
 			"@composer dump-autoload"
 		],
 		"post-install-cmd": [
-			"@prefix-namespaces",
-			"npm ci; npm run build"
+			"@prefix-namespaces"
 		],
 		"post-update-cmd": [
 			"@prefix-namespaces"
