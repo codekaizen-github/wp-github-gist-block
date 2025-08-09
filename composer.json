@@ -4,23 +4,29 @@
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
 	"scripts": {
-		"install-strauss": [
-			"sh -c 'echo \"checking strauss...\"; test -f ./bin/strauss.phar && echo \"strauss already downloaded\" || echo \"downloading strauss...\" && curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/latest/download/strauss.phar'"
-		],
-		"prefix-namespaces": [
-			"@install-strauss",
-			"@php bin/strauss.phar",
-			"@composer dump-autoload"
-		],
 		"post-install-cmd": [
-			"@prefix-namespaces"
+			"@strauss-prefix-namespaces"
 		],
 		"post-update-cmd": [
-			"@prefix-namespaces"
+			"@strauss-prefix-namespaces"
 		],
 		"post-autoload-dump": [
-			"@install-strauss",
-			"@php bin/strauss.phar include-autoloader"
+			"@strauss-include-autoloader"
+		],
+		"strauss-install": [
+			"test -f strauss.phar || curl -o strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/latest/download/strauss.phar"
+		],
+		"strauss": [
+			"@php strauss.phar"
+		],
+		"strauss-prefix-namespaces": [
+			"@strauss-install",
+			"@strauss",
+			"@composer dump-autoload"
+		],
+		"strauss-include-autoloader": [
+			"@strauss-install",
+			"@strauss include-autoloader"
 		]
 	},
 	"require": {
@@ -37,7 +43,8 @@
 			"target_directory": "vendor",
 			"namespace_prefix": "CodeKaizen\\WPGitHubGistBlock\\Dependencies\\",
 			"classmap_prefix": "CodeKaizen_WPGitHubGistBlock_Dependencies_",
-			"constant_prefix": "CKWPGHGBD_"
+			"constant_prefix": "CKWPGHGBD_",
+			"update_call_sites": true
 		}
 	}
 }
