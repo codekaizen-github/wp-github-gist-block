@@ -24,7 +24,8 @@
 		]
 	},
 	"require": {
-		"scrivo/highlight.php": "^9.18"
+		"scrivo/highlight.php": "^9.18",
+		"codekaizen/wp-package-autoupdater": "^1.0"
 	},
 	"autoload": {
 		"psr-4": {

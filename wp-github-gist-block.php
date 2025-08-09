@@ -97,8 +97,7 @@ function create_block_wp_github_gist_block_block_init()
 add_action('init', 'create_block_wp_github_gist_block_block_init');
 
 add_action('init', function () {
-	require_once('autoupdater.php');
-	new Autoupdater(__FILE__);
+	new \CodeKaizen\WPGitHubGistBlock\Dependencies\CodeKaizen\WPPackageAutoupdater\ORASHub\V1(__FILE__);
 });
 
 // Initialize classes using namespaces

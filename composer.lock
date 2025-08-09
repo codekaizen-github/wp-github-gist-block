@@ -4,8 +4,47 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "40d96f53daeec6cbd4de77feb942c943",
+    "content-hash": "6a38fd8aa541831673f1db6121c8763f",
     "packages": [
+        {
+            "name": "codekaizen/wp-package-autoupdater",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codekaizen-github/wp-package-autoupdater.git",
+                "reference": "220b576ae19e6cbc18f855a80a382558aeed1a9a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codekaizen-github/wp-package-autoupdater/zipball/220b576ae19e6cbc18f855a80a382558aeed1a9a",
+                "reference": "220b576ae19e6cbc18f855a80a382558aeed1a9a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CodeKaizen\\WPPackageAutoupdater\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Dawes",
+                    "email": "andrewjamesdawes@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/codekaizen-github/wp-package-autoupdater/issues",
+                "source": "https://github.com/codekaizen-github/wp-package-autoupdater/tree/v1.0.2"
+            },
+            "time": "2025-08-09T16:07:55+00:00"
+        },
         {
             "name": "scrivo/highlight.php",
             "version": "v9.18.1.10",
