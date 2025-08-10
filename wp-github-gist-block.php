@@ -22,7 +22,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 // Require the theme's autoupdater.
 add_action('init', function () {
-	new \WordPress\TwentyTwentyFive\Dependencies\CodeKaizen\WPPackageAutoupdater\ORASHub\V1(__FILE__);
+	new \CodeKaizen\WPGitHubGistBlock\Dependencies\CodeKaizen\WPPackageAutoupdater\ORASHub\V1(__FILE__);
 });
 
 if (! defined('ABSPATH')) {
