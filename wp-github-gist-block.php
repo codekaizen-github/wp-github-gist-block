@@ -15,30 +15,15 @@
  * @package CodeKaizen\WPGithubGistBlock
  */
 
-add_action('admin_init', function () {
-	// Check if user is on the Plugins page AND 'test' param is present
-	if (
-		isset($_GET['test']) &&
-		$_GET['test'] == '1' &&
-		isset($_GET['page']) === false && // not a subpage
-		strpos($_SERVER['REQUEST_URI'], 'plugins.php') !== false &&
-		current_user_can('update_plugins')
-	) {
-		// Delete the cached plugin update data
-		delete_site_transient('update_plugins');
+// Require Composer autoloader if available
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+	require_once __DIR__ . '/vendor/autoload.php';
+}
 
-		// Force recheck by calling the update API
-		if (function_exists('wp_update_plugins')) {
-			wp_update_plugins();
-		}
-
-		// Optional: admin notice
-		add_action('admin_notices', function () {
-			echo '<div class="notice notice-success is-dismissible"><p>Plugin updates rechecked.</p></div>';
-		});
-	}
+// Require the theme's autoupdater.
+add_action('init', function () {
+	new \WordPress\TwentyTwentyFive\Dependencies\CodeKaizen\WPPackageAutoupdater\ORASHub\V1(__FILE__);
 });
-
 
 if (! defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
@@ -49,10 +34,6 @@ define('WP_GITHUB_GIST_BLOCK_PLUGIN_FILE', __FILE__);
 define('WP_GITHUB_GIST_BLOCK_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('WP_GITHUB_GIST_BLOCK_PLUGIN_URL', plugin_dir_url(__FILE__));
 
-// Require Composer autoloader if available
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-	require_once __DIR__ . '/vendor/autoload.php';
-}
 /**
  * Registers the block using a `blocks-manifest.php` file, which improves the performance of block type registration.
  * Behind the scenes, it also registers all assets so they can be enqueued
@@ -95,10 +76,6 @@ function create_block_wp_github_gist_block_block_init()
 	}
 }
 add_action('init', 'create_block_wp_github_gist_block_block_init');
-
-add_action('init', function () {
-	new \CodeKaizen\WPGitHubGistBlock\Dependencies\CodeKaizen\WPPackageAutoupdater\ORASHub\V1(__FILE__);
-});
 
 // Initialize classes using namespaces
 function wp_github_gist_block_init_classes()
