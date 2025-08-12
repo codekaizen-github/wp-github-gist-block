@@ -27,7 +27,6 @@ pipeline {
                     env.WP_PACKAGE_METADATA_OVERRIDES = """{
                         "sections": {
                             "description": "Add a GitHub Gist Block.",
-                            "installation": "<a href=\"${GHCR_REPOSITORY}#installation\">Installation</a>",
                             "changelog": "changelog here",
                             "faq": "faq here"
                         }
