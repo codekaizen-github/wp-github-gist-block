@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "codekaizen/wp-package-autoupdater",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/codekaizen-github/wp-package-autoupdater.git",
-                "reference": "1b2eb2b3b518c9692ca0d6619af80a9cd8d54158"
+                "reference": "624b9b0319ddb33c8b58e01d02081faa63a2dc8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codekaizen-github/wp-package-autoupdater/zipball/1b2eb2b3b518c9692ca0d6619af80a9cd8d54158",
-                "reference": "1b2eb2b3b518c9692ca0d6619af80a9cd8d54158",
+                "url": "https://api.github.com/repos/codekaizen-github/wp-package-autoupdater/zipball/624b9b0319ddb33c8b58e01d02081faa63a2dc8d",
+                "reference": "624b9b0319ddb33c8b58e01d02081faa63a2dc8d",
                 "shasum": ""
             },
             "require": {
@@ -41,9 +41,9 @@
             ],
             "support": {
                 "issues": "https://github.com/codekaizen-github/wp-package-autoupdater/issues",
-                "source": "https://github.com/codekaizen-github/wp-package-autoupdater/tree/v1.0.3"
+                "source": "https://github.com/codekaizen-github/wp-package-autoupdater/tree/v1.0.4"
             },
-            "time": "2025-08-10T18:49:43+00:00"
+            "time": "2025-08-10T19:57:24+00:00"
         },
         {
             "name": "scrivo/highlight.php",
