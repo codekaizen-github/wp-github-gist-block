@@ -55,6 +55,7 @@ pipeline {
                             -e REGISTRY_PASSWORD="${GHCR_PAT}" \
                             -e IMAGE_NAME="${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}" \
                             -e WP_PACKAGE_METADATA_OVERRIDES="${WP_PACKAGE_METADATA_OVERRIDES}" \
+                            -e PARSE_README="true" \
                             ghcr.io/codekaizen-github/wp-package-deploy-oras:v5
                         rm -f ${PACKAGE_SLUG}.zip
                         '''
