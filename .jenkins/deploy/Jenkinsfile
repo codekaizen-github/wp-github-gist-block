@@ -52,7 +52,6 @@ pipeline {
                         docker build --target deploy -t ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-deploy .
                         docker image inspect ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-deploy
                         docker run --rm \
-                            --pull always \
                             -e WP_PACKAGE_SLUG="${WP_PACKAGE_SLUG}" \
                             -e WP_PACKAGE_TYPE="${WP_PACKAGE_TYPE}" \
                             -e WP_PACKAGE_HEADERS_FILE="${WP_PACKAGE_HEADERS_FILE}" \
@@ -65,7 +64,7 @@ pipeline {
                             -e REGISTRY_USERNAME="${GHCR_USER}" \
                             -e REGISTRY_PASSWORD="${GHCR_PAT}" \
                             -e IMAGE_NAME="${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}" \
-                            ghcr.io/codekaizen-github/wp-package-deploy-oras:latest
+                            ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-deploy
                         '''
                     }
                 }
