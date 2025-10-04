@@ -1,41 +1,26 @@
 # syntax=docker/dockerfile:1.7-labs
 FROM php:8.2 AS dependencies
-ARG PACKAGE_SLUG
 ARG NODE_VERSION=22
-
 RUN apt-get update && apt-get install -y curl unzip
-
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 # Download and install fnm:
 RUN curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "$HOME/.fnm" \
 	&& cp "$HOME/.fnm/fnm" /usr/bin
-
-FROM dependencies AS build
-ARG NODE_VERSION=22
-
 RUN fnm install $NODE_VERSION \
 	&& echo 'eval "$(fnm env --use-on-cd --shell bash)"' >> "$HOME/.bashrc"
 
-COPY . /${PACKAGE_SLUG}
-WORKDIR /${PACKAGE_SLUG}
+FROM dependencies AS build
+ARG NODE_VERSION=22
+COPY . /workspace
+WORKDIR /workspace
 # Run this command but with fnm loaded into context
-RUN bash -c "source \"$HOME/.bashrc\" && fnm use $NODE_VERSION && npm ci && npm run build && composer install --no-dev --no-interaction --optimize-autoloader"
+RUN bash -c "source \"$HOME/.bashrc\" && fnm use $NODE_VERSION && npm ci --omit=dev && npm run build && composer install --no-dev --no-interaction --optimize-autoloader"
 
-FROM alpine:latest AS compress
-ARG PACKAGE_SLUG
-# Use zip instead and have the root be the repository root
-RUN apk add --no-cache zip
+FROM ghcr.io/codekaizen-github/wp-package-deploy-oras AS deploy
 # Remove .git, node_modules, ts, and src
-COPY --from=build --exclude=.git --exclude=node_modules --exclude=ts --exclude=src /${PACKAGE_SLUG} /${PACKAGE_SLUG}
-# RUN npm ci --omit=dev
-RUN cd / && zip -r /${PACKAGE_SLUG}.zip ${PACKAGE_SLUG}
+COPY --from=build --exclude=.git --exclude=node_modules --exclude=ts --exclude=src /workspace /package
 
-FROM alpine:latest AS archive
-ARG PACKAGE_SLUG
-
-COPY --from=compress /${PACKAGE_SLUG}.zip /${PACKAGE_SLUG}.zip
 
 FROM dependencies AS dev
 ARG NODE_VERSION=22

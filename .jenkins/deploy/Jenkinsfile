@@ -4,6 +4,13 @@ pipeline {
         GHCR_REGISTRY = 'ghcr.io' // GitHub Container Registry
         GHCR_USER = 'ASDFASDF' // This can technically be anything. The GitHub PAT is what actually authenticates to GHCR.
         GHCR_CREDENTIALS_ID = 'jenkins-github-ghcr-pat-token-andrewjdawes' // Jenkins Credentials ID for a GitHub PAT Token with read/write access to GHCR packages
+        WP_PACKAGE_TYPE='plugin' // Type of WordPress package: 'plugin' or 'theme'
+        WP_PACKAGE_TESTED='6.4'
+        WP_PACKAGE_STABLE='latest'
+        WP_PACKAGE_HEADERS_FILE='wp-github-gist-block.php' // Main plugin or theme file that contains the headers
+        WP_PACKAGE_LICENSE='GPLv2 or later' // License of the WordPress package
+        WP_PACKAGE_LICENSE_URL='https://www.gnu.org/licenses/gpl-2.0.html'
+        WP_PACKAGE_DESCRIPTION='Embed GitHub Gists in the block editor.' // Short description of the WordPress package
     }
     stages {
         stage('Define vars') {
@@ -22,9 +29,9 @@ pipeline {
                     // When building the main branch, use the 'latest' tag. Replace any "/" with "-" to ensure valid Docker tag.
                     env.DYNAMIC_TAG_NAME = (env.GIT_BRANCH == 'main' ? 'latest' : env.GIT_BRANCH).replaceAll('/', '-')
                     env.GHCR_REPOSITORY = "${env.GITHUB_REPOSITORY_OWNER}/${env.GITHUB_REPOSITORY_NAME}".toLowerCase()
-                    env.PACKAGE_SLUG = "${env.GITHUB_REPOSITORY_NAME}" // Use the repository name as the plugin slug
                     env.LABEL_ORG_OPENCONTAINERS_IMAGE_SOURCE = "https://github.com/${env.GITHUB_REPOSITORY_OWNER}/${env.GITHUB_REPOSITORY_NAME}"
-                    env.WP_PACKAGE_METADATA_OVERRIDES = """{
+                    env.WP_PACKAGE_SLUG = "${env.GITHUB_REPOSITORY_NAME}" // Use the repository name as the plugin slug
+                    env.WP_PACKAGE_SECTIONS = """{
                         "sections": {
                             "description": "<a href=\\\"https://github.com/${GHCR_REPOSITORY}#description\\\">Description</a>",
                             "installation": "<a href=\\\"https://github.com/${GHCR_REPOSITORY}#installation\\\">Installation</a>",
@@ -42,22 +49,23 @@ pipeline {
                     withCredentials([string(credentialsId: GHCR_CREDENTIALS_ID, variable: 'GHCR_PAT')]) {
                         sh '''
                         echo "${GHCR_PAT}" | docker login ${GHCR_REGISTRY} -u "${GHCR_USER}" --password-stdin
-                        docker build --target archive --build-arg PACKAGE_SLUG=${PACKAGE_SLUG} -t ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive .
-                        docker image inspect ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive
-                        container_id=$(docker create ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-archive)
-                        docker cp ${container_id}:/${PACKAGE_SLUG}.zip .
-                        docker rm -v ${container_id} || true
+                        docker build --target deploy -t ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-deploy .
+                        docker image inspect ${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}-deploy
                         docker run --rm \
                             --pull always \
-                            -v "$(pwd)/${PACKAGE_SLUG}.zip":/${PACKAGE_SLUG}.zip \
-                            -e PACKAGE_ZIP_PATH="/${PACKAGE_SLUG}.zip" \
+                            -e WP_PACKAGE_SLUG="${WP_PACKAGE_SLUG}" \
+                            -e WP_PACKAGE_TYPE="${WP_PACKAGE_TYPE}" \
+                            -e WP_PACKAGE_HEADERS_FILE="${WP_PACKAGE_HEADERS_FILE}" \
+                            -e WP_PACKAGE_TESTED="${WP_PACKAGE_TESTED}" \
+                            -e WP_PACKAGE_STABLE="${WP_PACKAGE_STABLE}" \
+                            -e WP_PACKAGE_LICENSE="${WP_PACKAGE_LICENSE}" \
+                            -e WP_PACKAGE_LICENSE_URL="${WP_PACKAGE_LICENSE_URL}" \
+                            -e WP_PACKAGE_DESCRIPTION="${WP_PACKAGE_DESCRIPTION}" \
+                            -e WP_PACKAGE_SECTIONS="${WP_PACKAGE_SECTIONS}" \
                             -e REGISTRY_USERNAME="${GHCR_USER}" \
                             -e REGISTRY_PASSWORD="${GHCR_PAT}" \
                             -e IMAGE_NAME="${GHCR_REGISTRY}/${GHCR_REPOSITORY}:${DYNAMIC_TAG_NAME}" \
-                            -e WP_PACKAGE_METADATA_OVERRIDES="${WP_PACKAGE_METADATA_OVERRIDES}" \
-                            -e PARSE_README="true" \
-                            ghcr.io/codekaizen-github/wp-package-deploy-oras:v5
-                        rm -f ${PACKAGE_SLUG}.zip
+                            ghcr.io/codekaizen-github/wp-package-deploy-oras:latest
                         '''
                     }
                 }
