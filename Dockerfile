@@ -7,11 +7,11 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Download and install fnm:
 RUN curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "$HOME/.fnm" \
 	&& cp "$HOME/.fnm/fnm" /usr/bin
-RUN fnm install $NODE_VERSION \
-	&& echo 'eval "$(fnm env --use-on-cd --shell bash)"' >> "$HOME/.bashrc"
 
 FROM dependencies AS build
 ARG NODE_VERSION=22
+RUN fnm install $NODE_VERSION \
+	&& echo 'eval "$(fnm env --use-on-cd --shell bash)"' >> "$HOME/.bashrc"
 COPY . /workspace
 WORKDIR /workspace
 # Run this command but with fnm loaded into context
