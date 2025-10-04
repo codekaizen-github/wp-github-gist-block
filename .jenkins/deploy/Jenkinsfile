@@ -32,12 +32,10 @@ pipeline {
                     env.LABEL_ORG_OPENCONTAINERS_IMAGE_SOURCE = "https://github.com/${env.GITHUB_REPOSITORY_OWNER}/${env.GITHUB_REPOSITORY_NAME}"
                     env.WP_PACKAGE_SLUG = "${env.GITHUB_REPOSITORY_NAME}" // Use the repository name as the plugin slug
                     env.WP_PACKAGE_SECTIONS = """{
-                        "sections": {
-                            "description": "<a href=\\\"https://github.com/${GHCR_REPOSITORY}#description\\\">Description</a>",
-                            "installation": "<a href=\\\"https://github.com/${GHCR_REPOSITORY}#installation\\\">Installation</a>",
-                            "changelog":  "<a href=\\\"https://github.com/${GHCR_REPOSITORY}#changelog\\\">Changelog</a>",
-                            "faq": "<a href=\\\"https://github.com/${GHCR_REPOSITORY}#faq\\\">FAQ</a>"
-                        }
+                        "description": "<a href=\\\"https://github.com/${GHCR_REPOSITORY}#description\\\">Description</a>",
+                        "installation": "<a href=\\\"https://github.com/${GHCR_REPOSITORY}#installation\\\">Installation</a>",
+                        "changelog":  "<a href=\\\"https://github.com/${GHCR_REPOSITORY}#changelog\\\">Changelog</a>",
+                        "faq": "<a href=\\\"https://github.com/${GHCR_REPOSITORY}#faq\\\">FAQ</a>"
                     }"""
                 }
             }
