@@ -6,7 +6,7 @@ pipeline {
         GHCR_CREDENTIALS_ID = 'jenkins-github-ghcr-pat-token-andrewjdawes' // Jenkins Credentials ID for a GitHub PAT Token with read/write access to GHCR packages
         WP_PACKAGE_TYPE='plugin' // Type of WordPress package: 'plugin' or 'theme'
         WP_PACKAGE_TESTED='6.4'
-        WP_PACKAGE_STABLE='latest'
+        WP_PACKAGE_STABLE='1.0.0'
         WP_PACKAGE_HEADERS_FILE='wp-github-gist-block.php' // Main plugin or theme file that contains the headers
         WP_PACKAGE_LICENSE='GPLv2 or later' // License of the WordPress package
         WP_PACKAGE_LICENSE_URL='https://www.gnu.org/licenses/gpl-2.0.html'
