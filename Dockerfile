@@ -19,8 +19,21 @@ RUN bash -c "source \"$HOME/.bashrc\" && fnm use $NODE_VERSION && npm ci && npm 
 
 FROM ghcr.io/codekaizen-github/wp-package-deploy-oras AS deploy
 # Remove .git, node_modules, ts, and src
-COPY --from=build --exclude=.git --exclude=node_modules --exclude=ts --exclude=src /workspace /package
-
+COPY \
+	--from=build \
+	--exclude=.git \
+	--exclude=node_modules \
+	--exclude=ts \
+	--exclude=src \
+	--exclude=strauss.phar \
+	--exclude=Dockerfile \
+	--exclude=tsconfig.json \
+	--exclude=package.json \
+	--exclude=package-lock.json \
+	--exclude=composer.json \
+	--exclude=composer.lock \
+	--exclude=webpack.config.js \
+	/workspace /package
 
 FROM dependencies AS dev
 ARG NODE_VERSION=22
