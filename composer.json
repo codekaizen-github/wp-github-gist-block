@@ -27,11 +27,26 @@
 		"strauss-include-autoloader": [
 			"@strauss-install",
 			"@strauss include-autoloader"
-		]
+		],
+		"test": "phpunit",
+		"analyze": "php -d memory_limit=512M vendor/bin/phpstan",
+		"sniff": "phpcs -ps src/ tests/",
+		"fix": "phpcbf src/ tests/"
 	},
 	"require": {
 		"scrivo/highlight.php": "^9.18",
-		"codekaizen/wp-package-autoupdater": "^1.0"
+		"codekaizen/wp-package-autoupdater": "dev-main",
+		"monolog/monolog": "^3.9"
+	},
+	"require-dev": {
+		"phpstan/phpstan": "^2.1",
+		"phpunit/phpunit": "^9.6",
+		"squizlabs/php_codesniffer": "^3.0",
+		"wp-coding-standards/wpcs": "^3.0",
+		"mockery/mockery": "^1.6",
+		"phpstan/phpstan-mockery": "^2.0",
+		"szepeviktor/phpstan-wordpress": "^2.0",
+		"10up/wp_mock": "^1.1"
 	},
 	"autoload": {
 		"psr-4": {
@@ -45,6 +60,13 @@
 			"classmap_prefix": "CodeKaizen_WPGitHubGistBlock_Dependencies_",
 			"constant_prefix": "CKWPGHGBD_",
 			"update_call_sites": true
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
 	}
 }

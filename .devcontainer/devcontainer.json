@@ -12,7 +12,11 @@
 				"bmewburn.vscode-intelephense-client",
 				"xdebug.php-debug",
 				"neilbrayfield.php-docblocker",
-				"johnbillion.vscode-wordpress-hooks"
+				"johnbillion.vscode-wordpress-hooks",
+				"SanderRonde.phpstan-vscode",
+				"valeryanm.vscode-phpsab",
+				"wongjn.php-sniffer",
+				"EditorConfig.EditorConfig"
 			],
 			"settings": {
 				"terminal.integrated.defaultProfile.linux": "bash"
@@ -27,9 +31,9 @@
 	},
 	"postAttachCommand": {
 		"gitSafeDirectory": "git config --global --add safe.directory /var/www/html/wp-content/plugins/wp-github-gist-block;",
+		"gitHooks": "cd /var/www/html/wp-content/plugins/wp-github-gist-block && git config core.hooksPath .githooks;",
 		"lsla": "ls -la /var/www/html/wp-content/plugins/wp-github-gist-block",
 		"installWP": "while ! wp db check --path=/var/www/html; do sleep 5; done; wp core is-installed --path=/var/www/html || wp core install --url=\"http://localhost:8080\" --title=\"WP GitHub Gist Block Test Site\" --admin_user=local --admin_password=local --admin_email=local@example.com --path=/var/www/html",
 		"nodeInstall": "cd /var/www/html/wp-content/plugins/wp-github-gist-block && npm ci && npm run build",
-		"composerInstall": "cd /var/www/html/wp-content/plugins/wp-github-gist-block && composer install"
 	}
 }

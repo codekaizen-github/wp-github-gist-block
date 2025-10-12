@@ -15,6 +15,11 @@
  * @package CodeKaizen\WPGithubGistBlock
  */
 
+use CodeKaizen\WPGitHubGistBlock\Dependencies\CodeKaizen\WPPackageAutoUpdater\AutoUpdater\AutoUpdaterPluginORASHubV1;
+use CodeKaizen\WPGitHubGistBlock\Dependencies\Monolog\Handler\StreamHandler;
+use CodeKaizen\WPGitHubGistBlock\Dependencies\Monolog\Logger;
+use CodeKaizen\WPGitHubGistBlock\Dependencies\Psr\Log\LogLevel;
+
 // Require Composer autoloader if available
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 	require_once __DIR__ . '/vendor/autoload.php';
@@ -22,7 +27,12 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 // Require the theme's autoupdater.
 add_action('init', function () {
-	new \CodeKaizen\WPGitHubGistBlock\Dependencies\CodeKaizen\WPPackageAutoupdater\ORASHub\V1(__FILE__);
+	(new AutoUpdaterPluginORASHubV1(
+		__FILE__,
+		'https://wp-plugin-registry.codekaizen.net/api/v1/ghcr.io/codekaizen-github/wp-github-gist-block/latest/',
+		'org.codekaizen-github.wp-package-deploy.wp-package-metadata',
+		new Logger('wp-github-gist-block', [new StreamHandler('php://stdout', LogLevel::DEBUG)])
+	))->init();
 });
 
 if (! defined('ABSPATH')) {

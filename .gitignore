@@ -1,6 +1,9 @@
+# Strauss
 strauss.phar
 bin/strauss.phar
 vendor-prefixed
+# PHPUnit
+.phpunit.result.cache
 # Built files
 prefixed
 build

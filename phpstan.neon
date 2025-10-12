@@ -1,0 +1,9 @@
+parameters:
+    level: 9
+    paths:
+        - src
+        - tests
+includes:
+    - vendor/phpstan/phpstan-mockery/extension.neon
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
