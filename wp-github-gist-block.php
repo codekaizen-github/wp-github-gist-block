@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       WP GitHub Gist Block
  * Description:       Embed GitHub Gists with syntax highlighting in WordPress.
- * Version:           0.1.1
+ * Version:           0.1.2
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            CodeKaizen
@@ -29,7 +29,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 add_action('init', function () {
 	(new AutoUpdaterPluginORASHubV1(
 		__FILE__,
-		'https://wp-plugin-registry.codekaizen.net/api/v1/ghcr.io/codekaizen-github/wp-github-gist-block/latest/',
+		'https://wp-plugin-registry.codekaizen.net/api/v1/ghcr.io/codekaizen-github/wp-github-gist-block/latest/manifest/',
 		'org.codekaizen-github.wp-package-deploy.wp-package-metadata',
 		new Logger('wp-github-gist-block', [new StreamHandler(__DIR__ . '/debug.log', LogLevel::DEBUG)])
 	))->init();
