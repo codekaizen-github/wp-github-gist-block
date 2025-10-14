@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codekaizen-github/wp-package-auto-updater.git",
-                "reference": "565ed8cd8b6d343ae0de3559461de923d7ffb169"
+                "reference": "d41ca7d9d38f7525ed12b078485191ecdd1b11e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codekaizen-github/wp-package-auto-updater/zipball/565ed8cd8b6d343ae0de3559461de923d7ffb169",
-                "reference": "565ed8cd8b6d343ae0de3559461de923d7ffb169",
+                "url": "https://api.github.com/repos/codekaizen-github/wp-package-auto-updater/zipball/d41ca7d9d38f7525ed12b078485191ecdd1b11e1",
+                "reference": "d41ca7d9d38f7525ed12b078485191ecdd1b11e1",
                 "shasum": ""
             },
             "require": {
@@ -59,7 +59,7 @@
                 "issues": "https://github.com/codekaizen-github/wp-package-auto-updater/issues",
                 "source": "https://github.com/codekaizen-github/wp-package-auto-updater/tree/main"
             },
-            "time": "2025-10-12T17:35:11+00:00"
+            "time": "2025-10-14T12:14:56+00:00"
         },
         {
             "name": "codekaizen/wp-package-meta-provider-contract",
@@ -158,12 +158,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codekaizen-github/wp-package-meta-provider-orashub.git",
-                "reference": "54e50fb74b55fd9e9e10947c262de66d9424a242"
+                "reference": "cb97f3d646783c2ae416e712b713dbcd0f919895"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codekaizen-github/wp-package-meta-provider-orashub/zipball/54e50fb74b55fd9e9e10947c262de66d9424a242",
-                "reference": "54e50fb74b55fd9e9e10947c262de66d9424a242",
+                "url": "https://api.github.com/repos/codekaizen-github/wp-package-meta-provider-orashub/zipball/cb97f3d646783c2ae416e712b713dbcd0f919895",
+                "reference": "cb97f3d646783c2ae416e712b713dbcd0f919895",
                 "shasum": ""
             },
             "require": {
@@ -202,7 +202,7 @@
                 "issues": "https://github.com/codekaizen-github/wp-package-meta-provider-orashub/issues",
                 "source": "https://github.com/codekaizen-github/wp-package-meta-provider-orashub/tree/main"
             },
-            "time": "2025-10-12T17:34:35+00:00"
+            "time": "2025-10-14T01:18:53+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
