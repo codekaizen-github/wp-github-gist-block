@@ -11,6 +11,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       wp-github-gist-block
  * Update URI:        https://wp-plugin-registry.codekaizen.net/api/v1/ghcr.io/codekaizen-github/wp-github-gist-block/latest/
+ * Plugin URI:        https://github.com/codekaizen-github/wp-github-gist-block
  *
  * @package CodeKaizen\WPGithubGistBlock
  */
