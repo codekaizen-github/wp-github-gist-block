@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codekaizen-github/wp-package-auto-updater.git",
-                "reference": "d41ca7d9d38f7525ed12b078485191ecdd1b11e1"
+                "reference": "d7dca1a5afe6f1442919584d3ae4eeb2e2d6b03e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codekaizen-github/wp-package-auto-updater/zipball/d41ca7d9d38f7525ed12b078485191ecdd1b11e1",
-                "reference": "d41ca7d9d38f7525ed12b078485191ecdd1b11e1",
+                "url": "https://api.github.com/repos/codekaizen-github/wp-package-auto-updater/zipball/d7dca1a5afe6f1442919584d3ae4eeb2e2d6b03e",
+                "reference": "d7dca1a5afe6f1442919584d3ae4eeb2e2d6b03e",
                 "shasum": ""
             },
             "require": {
@@ -59,7 +59,7 @@
                 "issues": "https://github.com/codekaizen-github/wp-package-auto-updater/issues",
                 "source": "https://github.com/codekaizen-github/wp-package-auto-updater/tree/main"
             },
-            "time": "2025-10-14T12:14:56+00:00"
+            "time": "2025-10-16T01:28:08+00:00"
         },
         {
             "name": "codekaizen/wp-package-meta-provider-contract",
