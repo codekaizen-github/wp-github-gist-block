@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/codekaizen-github/wp-package-auto-updater.git",
-                "reference": "d7dca1a5afe6f1442919584d3ae4eeb2e2d6b03e"
+                "reference": "b80c61b3f5ad7198d2bbe256304cc8b69b9725e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codekaizen-github/wp-package-auto-updater/zipball/d7dca1a5afe6f1442919584d3ae4eeb2e2d6b03e",
-                "reference": "d7dca1a5afe6f1442919584d3ae4eeb2e2d6b03e",
+                "url": "https://api.github.com/repos/codekaizen-github/wp-package-auto-updater/zipball/b80c61b3f5ad7198d2bbe256304cc8b69b9725e9",
+                "reference": "b80c61b3f5ad7198d2bbe256304cc8b69b9725e9",
                 "shasum": ""
             },
             "require": {
@@ -59,7 +59,7 @@
                 "issues": "https://github.com/codekaizen-github/wp-package-auto-updater/issues",
                 "source": "https://github.com/codekaizen-github/wp-package-auto-updater/tree/main"
             },
-            "time": "2025-10-16T01:28:08+00:00"
+            "time": "2025-10-17T01:05:12+00:00"
         },
         {
             "name": "codekaizen/wp-package-meta-provider-contract",
@@ -2013,16 +2013,16 @@
         },
         {
             "name": "phpcsstandards/phpcsutils",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHPCSUtils.git",
-                "reference": "b22b59e3d9ec8fe4953e42c7d59117c6eae70eae"
+                "reference": "8b8e17615d04f2fc2cd46fc1d2fd888fa21b3cf9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHPCSUtils/zipball/b22b59e3d9ec8fe4953e42c7d59117c6eae70eae",
-                "reference": "b22b59e3d9ec8fe4953e42c7d59117c6eae70eae",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHPCSUtils/zipball/8b8e17615d04f2fc2cd46fc1d2fd888fa21b3cf9",
+                "reference": "8b8e17615d04f2fc2cd46fc1d2fd888fa21b3cf9",
                 "shasum": ""
             },
             "require": {
@@ -2102,7 +2102,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-09-05T00:00:03+00:00"
+            "time": "2025-10-16T16:39:32+00:00"
         },
         {
             "name": "phpstan/phpstan",
