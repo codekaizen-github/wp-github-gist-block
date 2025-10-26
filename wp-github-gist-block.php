@@ -32,6 +32,7 @@ add_action('init', function () {
 		__FILE__,
 		'https://wp-plugin-registry.codekaizen.net/api/v1/ghcr.io/codekaizen-github/wp-github-gist-block/latest/manifest/',
 		'org.codekaizen-github.wp-package-deploy.wp-package-metadata',
+		[],
 		new Logger('wp-github-gist-block', [new StreamHandler(__DIR__ . '/debug.log', LogLevel::DEBUG)])
 	))->init();
 });

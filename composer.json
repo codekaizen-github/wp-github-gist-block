@@ -35,8 +35,8 @@
 	},
 	"require": {
 		"scrivo/highlight.php": "^9.18",
-		"codekaizen/wp-package-autoupdater": "dev-main",
-		"monolog/monolog": "^3.9"
+		"monolog/monolog": "^3.9",
+		"codekaizen/wp-package-autoupdater": "^1.0"
 	},
 	"require-dev": {
 		"phpstan/phpstan": "^2.1",
@@ -62,7 +62,7 @@
 			"update_call_sites": true
 		}
 	},
-	"minimum-stability": "dev",
+	"minimum-stability": "stable",
 	"prefer-stable": true,
 	"config": {
 		"allow-plugins": {
