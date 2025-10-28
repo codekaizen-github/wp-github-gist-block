@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "codekaizen/wp-package-autoupdater",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/codekaizen-github/wp-package-auto-updater.git",
-                "reference": "bf0452090256bd4c34246afad0c02604fe4b0585"
+                "reference": "1042aa2368d4894d5798417f727f847a7951fb9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codekaizen-github/wp-package-auto-updater/zipball/bf0452090256bd4c34246afad0c02604fe4b0585",
-                "reference": "bf0452090256bd4c34246afad0c02604fe4b0585",
+                "url": "https://api.github.com/repos/codekaizen-github/wp-package-auto-updater/zipball/1042aa2368d4894d5798417f727f847a7951fb9d",
+                "reference": "1042aa2368d4894d5798417f727f847a7951fb9d",
                 "shasum": ""
             },
             "require": {
@@ -56,9 +56,9 @@
             ],
             "support": {
                 "issues": "https://github.com/codekaizen-github/wp-package-auto-updater/issues",
-                "source": "https://github.com/codekaizen-github/wp-package-auto-updater/tree/1.0.1"
+                "source": "https://github.com/codekaizen-github/wp-package-auto-updater/tree/1.1.0"
             },
-            "time": "2025-10-26T12:29:37+00:00"
+            "time": "2025-10-28T19:25:45+00:00"
         },
         {
             "name": "codekaizen/wp-package-meta-provider-contract",
@@ -1932,16 +1932,16 @@
         },
         {
             "name": "phpcsstandards/phpcsextra",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHPCSExtra.git",
-                "reference": "882b8c947ada27eb002870fe77fee9ce0a454cdb"
+                "reference": "8e89a01c7b8fed84a12a2a7f5a23a44cdbe4f62e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHPCSExtra/zipball/882b8c947ada27eb002870fe77fee9ce0a454cdb",
-                "reference": "882b8c947ada27eb002870fe77fee9ce0a454cdb",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHPCSExtra/zipball/8e89a01c7b8fed84a12a2a7f5a23a44cdbe4f62e",
+                "reference": "8e89a01c7b8fed84a12a2a7f5a23a44cdbe4f62e",
                 "shasum": ""
             },
             "require": {
@@ -2010,7 +2010,7 @@
                     "type": "thanks_dev"
                 }
             ],
-            "time": "2025-09-05T06:54:52+00:00"
+            "time": "2025-10-28T17:00:02+00:00"
         },
         {
             "name": "phpcsstandards/phpcsutils",
